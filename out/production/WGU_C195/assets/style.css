@@ -1,0 +1,48 @@
+.tablePane {
+-fx-padding: 10px;
+}
+.label {
+
+}
+.tableMain {
+-fx-padding: 20px;
+-fx-border-radius: 3px;
+-fx-background-radius: 3px;
+-fx-background-color: linear-gradient(#DBEEE5, #B7DACA);
+-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 10, 0.2 , 5 , 5 );
+}
+.roundBtn {
+-fx-text-fill: #395306;
+-fx-background-insets:  0, 1;
+-fx-background-radius:  30px;
+-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 1 , 1 )
+}
+.deleteBtn {
+-fx-text-fill: #eeeeee;
+-fx-background-color:  linear-gradient(#ffe8e8, #ffcfcf), radial-gradient(center 50% -40%, radius 200%, #ff5400 45%, #be1d00 50%);
+}
+.greenBtn {
+-fx-background-color:  linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+}
+.blueBtn {
+-fx-background-color:  linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #009BA6 45%, #00656C 50%);
+-fx-text-fill: #eeeeee;
+}
+
+.exitBtn {
+-fx-text-fill: #eeeeee;
+-fx-background-color:  linear-gradient(white, FFFFF4), radial-gradient(center 50% -40%, radius 200%, #575757 45%, black 50%)
+}
+
+.table-view .column-header-background {
+-fx-background-color: linear-gradient(#009BA6,#00656C);
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #DBEEE5;
+    -fx-border-width: 0px 1px 0px 0px;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #eeeeee;
+    -fx-font-weight: bold;
+}

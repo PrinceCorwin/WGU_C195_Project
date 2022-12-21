@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Objects;
 
 /** FUTURE ENHANCEMENTS - This class creates the AMALFI Makes It Inventory Management Application.
  * Adding a server side database to the application
@@ -34,9 +33,9 @@ public class Main extends Application {
     public void start(Stage openingStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/StartUpScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
-//        scene.getStylesheets().add("/style.css");
+        scene.getStylesheets().add("/assets/style.css");
         openingStage.setTitle("AMALFI SETS IT - Custom Scheduling");
-        openingStage.getIcons().add(new Image("/icon3.png"));
+        openingStage.getIcons().add(new Image("/assets/icon3.png"));
         openingStage.setScene(scene);
         openingStage.show();
 
