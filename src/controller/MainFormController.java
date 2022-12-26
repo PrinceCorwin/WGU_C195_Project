@@ -13,7 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -67,8 +66,6 @@ public class MainFormController {
             if (modCust.getName() != null) {
                 nullPointer = false;
             }
-//            String thisName = modPart.getName();
-//            nullPointer = false;`
         }
         catch (NullPointerException e) {
             selectCustError.setVisible(true);
@@ -100,13 +97,11 @@ public class MainFormController {
     public void onUpdateAppt(ActionEvent actionEvent) throws IOException {
         selectApptError.setVisible(false);
         boolean nullPointer = true;
-        Appt modAppt = (Appt) apptTable.getSelectionModel().getSelectedItem();
+        Appt modAppt = apptTable.getSelectionModel().getSelectedItem();
         try {
             if (modAppt.getTitle() != null) {
                 nullPointer = false;
             }
-//            String thisName = modPart.getName();
-//            nullPointer = false;
         }
         catch (NullPointerException e) {
             selectApptError.setVisible(true);

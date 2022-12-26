@@ -9,22 +9,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer {
-    private final int id;
-    private final String address;
-    private final String zip;
-    private final String phone;
-    private final String create;
-    private final String createdBy;
-    private final String update;
-    private final String updatedBy;
-    private final int divId;
-    private final String name;
-    private final String state;
+    private int id;
+    private String address;
+    private String zip;
+    private String phone;
+    private String create;
+    private String createdBy;
+    private String update;
+    private String updatedBy;
+    private int divId;
+    private String name;
+    private String state;
+    private String country;
+
 
     private static final ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-    private final String country;
 
-    public Customer(int id, String name, String address, String zip, String phone, String create, String createdBy, String update, String updatedBy, int divId, String state, String country) {
+    public Customer(int id, String name, String address, String zip, String phone,
+                    String create, String createdBy, String update, String updatedBy,
+                    int divId, String state, String country) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -78,12 +81,7 @@ public class Customer {
                         Customer cust = new Customer(id, name, address, zip, phone, create, createdBy, update, updatedBy, divId, state, country);
                         allCustomers.add(cust);
                     }
-
-
                 }
-//                String state = "test";
-//                Customer cust = new Customer(id, name, address, zip, phone, create, createdBy, update, updatedBy, divId, state);
-//                allCustomers.add(cust);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,48 +92,73 @@ public class Customer {
     public String getName() {
         return this.name;
     }
-
+    public void setName(String name) {
+        this.name = name;
+    }
     public int getId() {
         return id;
     }
-
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getAddress() {
         return address;
     }
-
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public String getZip() {
         return zip;
     }
-
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
     public String getPhone() {
         return phone;
     }
-
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public String getCreate() {
         return create;
     }
-
+    public void setCreate(String create) {
+        this.create = create;
+    }
     public String getCreatedBy() {
         return createdBy;
     }
-
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
     public String getUpdate() {
         return update;
     }
-
+    public void setUpdate(String update) {
+        this.update = update;
+    }
     public String getUpdatedBy() {
         return updatedBy;
     }
-
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
     public int getDivId() {
         return divId;
     }
-
+    public void setDivId(int divId) {
+        this.divId = divId;
+    }
     public String getState() {
         return state;
     }
-
+    public void setState(String state) {
+        this.state = state;
+    }
     public String getCountry() {
         return country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

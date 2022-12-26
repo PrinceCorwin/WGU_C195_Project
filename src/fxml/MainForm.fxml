@@ -32,33 +32,31 @@
           <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" text="ADD APPT" />
             <RadioButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="WEEK" />
             <RadioButton layoutX="137.0" layoutY="14.0" mnemonicParsing="false" text="MONTH" />
-            <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" />
+            <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
             </AnchorPane>
         </Tab>
         <Tab text="Customer Directory">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <TableView fx:id="custTable" layoutX="10.0" layoutY="14.0" prefHeight="434.0" prefWidth="1180.0">
                     <columns>
-                        <TableColumn fx:id="custId" prefWidth="90.0" text="Customer_ID"/>
-                        <TableColumn fx:id="custName" prefWidth="90.0" text="Name"/>
-                        <TableColumn fx:id="custAddress" prefWidth="90.0" text="Address"/>
-                        <TableColumn fx:id="custZip" prefWidth="90.0" text="Postal Code"/>
-                        <TableColumn fx:id="custCountry" prefWidth="90.0" text="Country"/>
-                        <TableColumn fx:id="custState" prefWidth="140.0" text="State / Province"/>
-                        <TableColumn fx:id="custPhone" prefWidth="90.0" text="Phone"/>
-                        <TableColumn fx:id="custCreateDate" prefWidth="90.0" text="Create_Date"/>
-                        <TableColumn fx:id="custCreatedBy" prefWidth="90.0" text="Created_By"/>
-                        <TableColumn fx:id="custLastUpdate" prefWidth="90.0" text="Last_Update"/>
-                        <TableColumn fx:id="custUpdatedBy" prefWidth="140.0" text="Last_Updated_By"/>
-                        <TableColumn fx:id="custDivId" prefWidth="90.0" text="Division_ID"/>
+                        <TableColumn fx:id="custId" prefWidth="90.0" text="Customer_ID" />
+                        <TableColumn fx:id="custName" prefWidth="90.0" text="Name" />
+                        <TableColumn fx:id="custAddress" prefWidth="90.0" text="Address" />
+                        <TableColumn fx:id="custZip" prefWidth="90.0" text="Postal Code" />
+                        <TableColumn fx:id="custCountry" prefWidth="90.0" text="Country" />
+                        <TableColumn fx:id="custState" prefWidth="140.0" text="State / Province" />
+                        <TableColumn fx:id="custPhone" prefWidth="90.0" text="Phone" />
+                        <TableColumn fx:id="custCreateDate" prefWidth="90.0" text="Create_Date" />
+                        <TableColumn fx:id="custCreatedBy" prefWidth="90.0" text="Created_By" />
+                        <TableColumn fx:id="custLastUpdate" prefWidth="90.0" text="Last_Update" />
+                        <TableColumn fx:id="custUpdatedBy" prefWidth="140.0" text="Last_Updated_By" />
+                        <TableColumn fx:id="custDivId" prefWidth="90.0" text="Division_ID" />
                     </columns>
                 </TableView>
-                <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" text="ADD CUST"/>
-                <Button layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust"
-                        text="UPDATE CUST"/>
-                <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0"
-                       text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED"/>
-                <Button layoutX="347.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" text="DELETE"/>
+                <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" text="ADD CUST" />
+                <Button layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" text="UPDATE CUST" />
+                <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
+                <Button layoutX="347.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" text="DELETE" />
             </AnchorPane>
         </Tab>
     </TabPane>
