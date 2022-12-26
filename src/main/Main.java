@@ -1,6 +1,6 @@
 package main;
 
-import helper.JDBC;
+import databaseHelp.sqlCon;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,10 +20,10 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
 
-        JDBC.openConnection();
-        JDBC.closeConnection();
+        sqlCon.openConnection();
 
         launch(args);
+        sqlCon.closeConnection();
     }
 
     /** The start method sets the stage and starts the first scene (LoginScreen.fxml).
@@ -34,7 +34,7 @@ public class Main extends Application {
     @Override
     public void start(Stage openingStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/LoginScreen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         scene.getStylesheets().add("/assets/style.css");
         openingStage.setTitle("AMALFI SETS IT - Custom Scheduling");
         openingStage.getIcons().add(new Image("/assets/icon3.png"));
