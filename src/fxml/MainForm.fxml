@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainFormController">
@@ -30,9 +31,13 @@
             <Button layoutX="347.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" text="DELETE" />
             <Button layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" text="UPDATE APPT" />
           <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" text="ADD APPT" />
-            <RadioButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="WEEK" />
-            <RadioButton layoutX="137.0" layoutY="14.0" mnemonicParsing="false" text="MONTH" />
+            <RadioButton fx:id="allApptView" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onAllApptView" selected="true" text="ALL">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radioToggle" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="WEEK" toggleGroup="$radioToggle" />
             <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
+            <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="MONTH" toggleGroup="$radioToggle" />
             </AnchorPane>
         </Tab>
         <Tab text="Customer Directory">

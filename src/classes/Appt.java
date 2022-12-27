@@ -69,11 +69,11 @@ public class Appt {
 
                 Appt appt = new Appt(id, title, start, desc, contact, loc, type, end, custId, userId, createdBy, created, update, updatedBy);
                 allAppts.add(appt);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return allAppts;
     }
 

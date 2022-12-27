@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
-   <children>
-      <Button layoutX="440.0" layoutY="322.0" mnemonicParsing="false" onAction="#onApptCancel" text="CANCEL" />
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
+   <Button layoutX="497.0" layoutY="631.0" mnemonicParsing="false" onAction="#onApptCancel" text="CANCEL" />
+   <Button layoutX="383.0" layoutY="631.0" mnemonicParsing="false" onAction="#onSaveAppt" text="SAVE" />
+   <TextField fx:id="apptIdField" disable="true" layoutX="93.0" layoutY="130.0" promptText="APPOINTMENT ID (AUTO)" />
+   <TextField fx:id="apptTitleField" layoutX="93.0" layoutY="173.0" promptText="TITLE" />
+   <TextField fx:id="apptTypeField" layoutX="364.0" layoutY="130.0" promptText="TYPE" />
+   <TextField fx:id="apptLocField" layoutX="93.0" layoutY="250.0" promptText="LOCATION" />
+   <TextField fx:id="apptDescField" layoutX="93.0" layoutY="211.0" promptText="DESCRIPTION" />
+   <TextField fx:id="apptCustIdField" layoutX="364.0" layoutY="173.0" promptText="CUSTOMER ID" />
+   <TextField fx:id="apptUserIdField" layoutX="364.0" layoutY="211.0" promptText="USER ID" />
+   <ComboBox fx:id="apptContactField" accessibleRole="DATE_PICKER" layoutX="363.0" layoutY="250.0" prefWidth="150.0" promptText="CONTACT" />
+   <AnchorPane layoutX="327.0" layoutY="290.0" prefHeight="158.0" prefWidth="200.0">
+      <children>
+         <TextField fx:id="apptEndDateField" layoutX="25.0" layoutY="66.0" promptText="DATE (ex YYYY-MM-DD)" />
+         <TextField fx:id="apptEndTimeField" layoutX="25.0" layoutY="101.0" promptText="TIME (ex HH:MM:SS)" />
+         <Label layoutX="43.0" layoutY="32.0" text="END DATE AND TIME" />
+      </children>
+   </AnchorPane>
+   <AnchorPane layoutX="73.0" layoutY="290.0" prefHeight="158.0" prefWidth="200.0">
+      <children>
+         <TextField fx:id="apptStartDateField" layoutX="25.0" layoutY="66.0" promptText="DATE (ex YYYY-MM-DD)" />
+         <TextField fx:id="apptStartTimeField" layoutX="25.0" layoutY="100.0" promptText="TIME (ex HH:MM:SS)" />
+         <Label layoutX="38.0" layoutY="32.0" text="START DATE AND TIME" />
+      </children>
+   </AnchorPane>
+   <Label layoutX="85.0" layoutY="58.0" text="NEW APPOINTMENT" />
 </AnchorPane>

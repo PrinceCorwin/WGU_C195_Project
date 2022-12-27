@@ -30,12 +30,16 @@ public class LoginScreenController {
         Locale currentLocale = Locale.getDefault();
         String currentLocation = currentLocale.getDisplayCountry();
         String lang = currentLocale.getLanguage();
-        System.out.println(currentLocation);
-        System.out.println(lang);
-        loginError.setText("Error: Username or Password not recognized. \nPlease try again");
         locationLabel.setText(currentLocation);
         if (Objects.equals(lang, "fr")) {
             translateApp();
+        } else {
+            loginSubmit.setText("SUBMIT");
+            loginError.setText("Error: Username or Password not recognized. \nPlease try again");
+            userLocationLabel.setText("User Location:");
+            passwordField.setPromptText("ENTER PASSWORD");
+            userNameField.setPromptText("ENTER USERNAME");
+            loginLabel.setText("LOGIN");
         }
     }
 

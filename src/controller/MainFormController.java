@@ -2,21 +2,48 @@ package controller;
 
 import classes.Appt;
 import classes.Customer;
+import databaseHelp.sqlCon;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
 public class MainFormController {
+    public void initialize() {
+        apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        apptDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        apptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        apptLoc.setCellValueFactory(new PropertyValueFactory<>("loc"));
+        apptType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        apptCustId.setCellValueFactory(new PropertyValueFactory<>("custId"));
+        apptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
+        custId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        custName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        custAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        custZip.setCellValueFactory(new PropertyValueFactory<>("zip"));
+        custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
+        custState.setCellValueFactory(new PropertyValueFactory<>("state"));
+        custPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        custCreateDate.setCellValueFactory(new PropertyValueFactory<>("create"));
+        custCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+        custLastUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
+        custUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("updatedBy"));
+        custDivId.setCellValueFactory(new PropertyValueFactory<>("divId"));
+
+        apptTable.setItems(appts);
+        custTable.setItems(customers);
+    }
     public TableView<Appt> apptTable;
     public TableColumn<Appt, Integer> apptId;
     public TableColumn<Appt, String> apptTitle;
@@ -43,8 +70,12 @@ public class MainFormController {
     public TableColumn<Customer, String> custUpdatedBy;
     public TableColumn<Customer, Integer> custDivId;
     public Label selectCustError;
-    private ObservableList<Customer> customers = Customer.getCustomerList();
-    private ObservableList<Appt> appts = Appt.getApptList();
+    public RadioButton allApptView;
+    public ToggleGroup radioToggle;
+    public RadioButton weekApptView;
+    public RadioButton monthApptView;
+    private final ObservableList<Customer> customers = sqlCon.getCustomerList();
+    private final ObservableList<Appt> appts = sqlCon.getApptList();
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -120,32 +151,18 @@ public class MainFormController {
 
     public void onDeleteAppt(ActionEvent actionEvent) {
     }
-    public void initialize() {
-        apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
-        apptDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        apptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        apptLoc.setCellValueFactory(new PropertyValueFactory<>("loc"));
-        apptType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        apptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
-        apptCustId.setCellValueFactory(new PropertyValueFactory<>("custId"));
-        apptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
-        custId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        custName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        custAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        custZip.setCellValueFactory(new PropertyValueFactory<>("zip"));
-        custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
-        custState.setCellValueFactory(new PropertyValueFactory<>("state"));
-        custPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        custCreateDate.setCellValueFactory(new PropertyValueFactory<>("create"));
-        custCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
-        custLastUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
-        custUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("updatedBy"));
-        custDivId.setCellValueFactory(new PropertyValueFactory<>("divId"));
 
-        apptTable.setItems(appts);
-        custTable.setItems(customers);
+    public void onAllApptView(ActionEvent actionEvent) {
+        for(Appt appt : appts) {
+
+        }
+    }
+
+    public void onWeekApptView(ActionEvent actionEvent) {
+    }
+
+    public void onMonthApptView(ActionEvent actionEvent) {
+
     }
 }
