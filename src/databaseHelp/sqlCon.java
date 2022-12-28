@@ -13,18 +13,18 @@ public abstract class sqlCon {
     private static final String splVend = ":mysql:";
     private static final String sqlDbLoc = "//localhost/";
     private static final String sqlDbName = "client_schedule";
-    private static final String sqlIp = sqlProtocol + splVend + sqlDbLoc + sqlDbName + "?connectionTimeZone = SERVER"; // LOCAL
-    private static final String sqlDriver = "com.mysql.cj.jdbc.Driver"; // Driver reference
-    private static final String appUser = "sqlUser"; // Username
-    public static Connection appConn;  // Connection Interface
+    private static final String sqlIp = sqlProtocol + splVend + sqlDbLoc + sqlDbName + "?connectionTimeZone = SERVER";
+    private static final String sqlDriver = "com.mysql.cj.jdbc.Driver";
+    private static final String appUser = "sqlUser";
+    public static Connection appConn;
 
     public static void openConnection()
     {
         try {
-            Class.forName(sqlDriver); // Locate Driver
+            Class.forName(sqlDriver);
             // Password
             String password = "Passw0rd!";
-            appConn = DriverManager.getConnection(sqlIp, appUser, password); // Reference Connection object
+            appConn = DriverManager.getConnection(sqlIp, appUser, password);
             System.out.println("You are connected");
         }
         catch(Exception e)
@@ -144,5 +144,27 @@ public abstract class sqlCon {
             e.printStackTrace();
         }
         return allContacts;
+    }
+    public static void deleteCust(Customer deletedCust) {
+        try {
+            int id = deletedCust.getId();
+            String custQuery = String.format("DELETE FROM customers WHERE Customer_ID = %d", id);
+            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+            myPs.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void deleteAppt(Appt deletedAppt) {
+        try {
+            int id = deletedAppt.getId();
+            String custQuery = String.format("DELETE FROM appointments WHERE Appointment_ID = %d", id);
+            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+            myPs.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class MainFormController {
     public void initialize() {
@@ -74,8 +75,8 @@ public class MainFormController {
     public ToggleGroup radioToggle;
     public RadioButton weekApptView;
     public RadioButton monthApptView;
-    private final ObservableList<Customer> customers = sqlCon.getCustomerList();
-    private final ObservableList<Appt> appts = sqlCon.getApptList();
+    private ObservableList<Customer> customers = sqlCon.getCustomerList();
+    private ObservableList<Appt> appts = sqlCon.getApptList();
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -90,19 +91,9 @@ public class MainFormController {
      * @throws IOException Catches any exceptions thrown during data input / output
      */
     public void onUpdateCust(ActionEvent actionEvent) throws IOException {
-        selectCustError.setVisible(false);
-        boolean nullPointer = true;
-        Customer modCust = custTable.getSelectionModel().getSelectedItem();
-        try {
-            if (modCust.getName() != null) {
-                nullPointer = false;
-            }
-        }
-        catch (NullPointerException e) {
-            selectCustError.setVisible(true);
-        }
+        boolean nullPointer = isCustSelected();
 
-        if (!nullPointer) {
+        if (nullPointer) {
             Customer customer = custTable.getSelectionModel().getSelectedItem();
             AddUpdateCustomerController.setModifiedCust(customer);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
@@ -115,6 +106,19 @@ public class MainFormController {
     }
 
     public void onDeleteCust(ActionEvent actionEvent) {
+        boolean nullPointer = isCustSelected();
+        if (!nullPointer) {
+            Customer deletedCust = custTable.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Delete");
+            alert.setHeaderText("Delete " + deletedCust.getName());
+            alert.setContentText("Are you sure?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                sqlCon.deleteCust(deletedCust);
+                custTable.setItems(sqlCon.getCustomerList());
+            }
+        }
     }
 
     public void onAddAppt(ActionEvent actionEvent) throws IOException {
@@ -126,19 +130,9 @@ public class MainFormController {
     }
 
     public void onUpdateAppt(ActionEvent actionEvent) throws IOException {
-        selectApptError.setVisible(false);
-        boolean nullPointer = true;
-        Appt modAppt = apptTable.getSelectionModel().getSelectedItem();
-        try {
-            if (modAppt.getTitle() != null) {
-                nullPointer = false;
-            }
-        }
-        catch (NullPointerException e) {
-            selectApptError.setVisible(true);
-        }
+        boolean nullPointer = isApptSelected();
 
-        if (!nullPointer) {
+        if (nullPointer) {
             Appt appt = apptTable.getSelectionModel().getSelectedItem();
             AddUpdateApptsController.setModifiedAppt(appt);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));
@@ -150,19 +144,63 @@ public class MainFormController {
     }
 
     public void onDeleteAppt(ActionEvent actionEvent) {
+       boolean nullPointer = isApptSelected();
+        if (!nullPointer) {
+            Appt deletedAppt = apptTable.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Delete");
+            alert.setHeaderText("Delete " + deletedAppt.getTitle() + " at " + deletedAppt.getStart());
+            alert.setContentText("Are you sure?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                sqlCon.deleteAppt(deletedAppt);
+                apptTable.setItems(sqlCon.getApptList());
+            }
+        }
+
     }
 
-
     public void onAllApptView(ActionEvent actionEvent) {
+        apptTable.setItems(appts);
+    }
+
+    public void onWeekApptView(ActionEvent actionEvent) {
         for(Appt appt : appts) {
 
         }
     }
 
-    public void onWeekApptView(ActionEvent actionEvent) {
-    }
-
     public void onMonthApptView(ActionEvent actionEvent) {
+        for(Appt appt : appts) {
 
+        }
+    }
+    public boolean isApptSelected() {
+        selectApptError.setVisible(false);
+        boolean nullPointer = true;
+        Appt appt = apptTable.getSelectionModel().getSelectedItem();
+        try {
+            if (appt.getTitle() != null) {
+                nullPointer = false;
+            }
+        }
+        catch (NullPointerException e) {
+            selectApptError.setVisible(true);
+        }
+        return nullPointer;
+    }
+    public boolean isCustSelected() {
+        selectCustError.setVisible(false);
+        boolean nullPointer = true;
+        Customer cust = custTable.getSelectionModel().getSelectedItem();
+        try {
+            if (cust.getName() != null) {
+                nullPointer = false;
+            }
+        }
+        catch (NullPointerException e) {
+            selectCustError.setVisible(true);
+        }
+        return nullPointer;
     }
 }
