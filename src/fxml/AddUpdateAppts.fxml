@@ -19,23 +19,19 @@
    <TextField fx:id="apptUserIdField" layoutX="409.0" layoutY="367.0" promptText="USER ID" />
    <ComboBox fx:id="apptContactField" accessibleRole="DATE_PICKER" layoutX="408.0" layoutY="406.0" prefWidth="150.0" promptText="CONTACT" />
    <AnchorPane layoutX="1.0" layoutY="82.0" prefHeight="176.0" prefWidth="600.0" style="-fx-background-color: white;">
-      <children>
-         <TextField fx:id="apptEndDateField" layoutX="408.4" layoutY="62.0" promptText="DATE (ex YYYY-MM-DD)" />
-         <TextField fx:id="apptEndTimeField" layoutX="408.0" layoutY="105.0" promptText="TIME (ex HH:MM:SS)" />
-         <Label layoutX="418.0" layoutY="33.0" text="END DATE AND TIME" />
-         <Label layoutX="55.0" layoutY="33.0" text="START DATE AND TIME" />
-         <TextField fx:id="apptStartDateField" layoutX="42.0" layoutY="67.0" promptText="DATE (ex YYYY-MM-DD)" />
-         <TextField fx:id="apptStartTimeField" layoutX="42.0" layoutY="105.0" promptText="TIME (ex HH:MM:SS)" />
-      </children>
+      <TextField fx:id="apptEndDateField" layoutX="408.4" layoutY="62.0" promptText="DATE (ex YYYY-MM-DD)"/>
+      <TextField fx:id="apptEndTimeField" layoutX="408.0" layoutY="105.0" promptText="TIME (ex HH:MM:SS)"/>
+      <Label layoutX="418.0" layoutY="33.0" text="END DATE AND TIME"/>
+      <Label layoutX="55.0" layoutY="33.0" text="START DATE AND TIME"/>
+      <TextField fx:id="apptStartDateField" layoutX="42.0" layoutY="67.0" promptText="DATE (ex YYYY-MM-DD)"/>
+      <TextField fx:id="apptStartTimeField" layoutX="42.0" layoutY="105.0" promptText="TIME (ex HH:MM:SS)"/>
    </AnchorPane>
    <AnchorPane layoutX="-6.0" prefHeight="82.0" prefWidth="607.0" style="-fx-background-color: black;">
-      <children>
-         <Label layoutX="40.0" layoutY="23.0" text="NEW APPOINTMENT" textFill="#efefef">
-            <font>
-               <Font size="25.0" />
-            </font>
-         </Label>
-      </children>
+      <Label fx:id="apptFormTitle" layoutX="40.0" layoutY="23.0" text="NEW APPOINTMENT" textFill="#efefef">
+         <font>
+            <Font size="25.0"/>
+         </font>
+      </Label>
    </AnchorPane>
    <Label layoutX="43.0" layoutY="477.0" text="ERRORS" textFill="RED" />
 </AnchorPane>

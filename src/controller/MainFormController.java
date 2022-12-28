@@ -93,7 +93,7 @@ public class MainFormController {
     public void onUpdateCust(ActionEvent actionEvent) throws IOException {
         boolean nullPointer = isCustSelected();
 
-        if (nullPointer) {
+        if (!nullPointer) {
             Customer customer = custTable.getSelectionModel().getSelectedItem();
             AddUpdateCustomerController.setModifiedCust(customer);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
@@ -132,7 +132,7 @@ public class MainFormController {
     public void onUpdateAppt(ActionEvent actionEvent) throws IOException {
         boolean nullPointer = isApptSelected();
 
-        if (nullPointer) {
+        if (!nullPointer) {
             Appt appt = apptTable.getSelectionModel().getSelectedItem();
             AddUpdateApptsController.setModifiedAppt(appt);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));

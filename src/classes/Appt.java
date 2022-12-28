@@ -125,13 +125,13 @@ public class Appt {
     public void setEnd(String end) {
         this.end = end;
     }
-    public int getCustId() {
+    public Integer getCustId() {
         return custId;
     }
     public void setCustId(int custId) {
         this.custId = custId;
     }
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
     public void setUserId(int userId) {

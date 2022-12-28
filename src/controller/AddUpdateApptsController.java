@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -21,14 +22,17 @@ import java.util.Objects;
 public class AddUpdateApptsController {
     public TextField apptIdField;
     public TextField apptTitleField;
-    public TextField apptStartField;
-    public TextField apptEndField;
     public TextField apptTypeField;
     public TextField apptLocField;
     public TextField apptDescField;
     public TextField apptCustIdField;
     public TextField apptUserIdField;
     public ComboBox<String> apptContactField;
+    public TextField apptEndDateField;
+    public TextField apptEndTimeField;
+    public TextField apptStartDateField;
+    public TextField apptStartTimeField;
+    public Label apptFormTitle;
 
     public void initialize() {
         ObservableList<Contact> allContacts = sqlCon.getContactList();
@@ -43,8 +47,16 @@ public class AddUpdateApptsController {
                     apptContactField.setPromptText(c.getName());
                 }
             }
-        } else {
-            System.out.println("new");
+            apptFormTitle.setText("UPDATE APPOINTMENT");
+            apptDescField.setText(modifiedAppt.getDesc());
+            apptTitleField.setText(modifiedAppt.getTitle());
+            apptLocField.setText(modifiedAppt.getLoc());
+            apptCustIdField.setText(modifiedAppt.getId().toString());
+            apptTypeField.setText(modifiedAppt.getType());
+            apptUserIdField.setText(modifiedAppt.getUserId().toString());
+            apptIdField.setText(modifiedAppt.getId().toString());
+
+
         }
     }
     private static Appt modifiedAppt = null;
