@@ -17,7 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
+
+import static java.lang.Integer.parseInt;
 
 public class AddUpdateApptsController {
     public TextField apptIdField;
@@ -35,6 +39,7 @@ public class AddUpdateApptsController {
     public Label apptFormTitle;
 
     public void initialize() {
+        ObservableList<Appt> allAppts =  FXCollections.observableArrayList();
         ObservableList<Contact> allContacts = sqlCon.getContactList();
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         for(Contact c : allContacts) {
@@ -44,7 +49,7 @@ public class AddUpdateApptsController {
         if(modifiedAppt != null) {
             for(Contact c : allContacts) {
                 if(c.getId() == modifiedAppt.getId()) {
-                    apptContactField.setPromptText(c.getName());
+                    apptContactField.setValue(c.getName());
                 }
             }
             apptFormTitle.setText("UPDATE APPOINTMENT");
@@ -55,8 +60,8 @@ public class AddUpdateApptsController {
             apptTypeField.setText(modifiedAppt.getType());
             apptUserIdField.setText(modifiedAppt.getUserId().toString());
             apptIdField.setText(modifiedAppt.getId().toString());
-
-
+        } else {
+            apptIdField.setText(String.valueOf(getUniqueId()));
         }
     }
     private static Appt modifiedAppt = null;
@@ -77,7 +82,49 @@ public class AddUpdateApptsController {
         stage.show();
     }
 
+    private int getUniqueId() {
+        int count = 0;
+        ObservableList<Appt> appts = sqlCon.getApptList();
+        boolean unique = false;
+        do {
+            unique = true;
+            count++;
+            for (Appt a : appts) {
+                if (a.getId() == count) {
+                 unique = false;
+               }
+            }
+        } while (!unique);
+        return count;
+    }
     public void onSaveAppt(ActionEvent actionEvent) {
+        if (modifiedAppt == null) {
+            String createdBy;
+            String create;
+        }
+        String title = apptTitleField.getText();
+        String desc = apptDescField.getText();
+        String loc = apptLocField.getText();
+        String type = apptTypeField.getText();
+        String end = apptEndDateField.getText();
+        String start = apptStartDateField.getText();
+        String update;
+        String updatedBy;
+        int custId = parseInt(apptCustIdField.getText());
+        int userId = parseInt(apptUserIdField.getText());
+        String contact = apptContactField.getValue();
+        System.out.println(contact);
+        int id = parseInt(apptIdField.getText());
+        System.out.println(id);
+        try {
+            String custQuery = String.format("INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)", id, title, desc, loc);
+//            INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)
+//            INSERT INTO appointments VALUES(2, 'title', 'description', 'location', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)
+            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+            myPs.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
