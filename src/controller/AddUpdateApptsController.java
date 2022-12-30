@@ -2,7 +2,7 @@ package controller;
 
 import classes.Appt;
 import classes.Contact;
-import classes.Customer;
+import classes.User;
 import databaseHelp.sqlCon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +24,8 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 public class AddUpdateApptsController {
+    boolean errors = false;
+
     public TextField apptIdField;
     public TextField apptTitleField;
     public TextField apptTypeField;
@@ -38,8 +40,17 @@ public class AddUpdateApptsController {
     public TextField apptStartTimeField;
     public Label apptFormTitle;
 
+    public String splitDateTime(String dateStr, String dateOrTime) {
+        String[] splitDate = dateStr.split(" ", 2);
+        if (Objects.equals(dateOrTime, "time")) {
+            return splitDate[1];
+        } else {
+            return splitDate[0];
+        }
+    }
+
     public void initialize() {
-        ObservableList<Appt> allAppts =  FXCollections.observableArrayList();
+//        ObservableList<Appt> allAppts =  FXCollections.observableArrayList();
         ObservableList<Contact> allContacts = sqlCon.getContactList();
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         for(Contact c : allContacts) {
@@ -60,6 +71,10 @@ public class AddUpdateApptsController {
             apptTypeField.setText(modifiedAppt.getType());
             apptUserIdField.setText(modifiedAppt.getUserId().toString());
             apptIdField.setText(modifiedAppt.getId().toString());
+            apptStartDateField.setText(splitDateTime((modifiedAppt.getStart()), "date"));
+            apptEndDateField.setText(splitDateTime((modifiedAppt.getEnd()), "date"));
+            apptEndTimeField.setText(splitDateTime((modifiedAppt.getEnd()), "time"));
+            apptStartTimeField.setText(splitDateTime((modifiedAppt.getStart()), "time"));
         } else {
             apptIdField.setText(String.valueOf(getUniqueId()));
         }
@@ -85,7 +100,7 @@ public class AddUpdateApptsController {
     private int getUniqueId() {
         int count = 0;
         ObservableList<Appt> appts = sqlCon.getApptList();
-        boolean unique = false;
+        boolean unique;
         do {
             unique = true;
             count++;
@@ -97,34 +112,83 @@ public class AddUpdateApptsController {
         } while (!unique);
         return count;
     }
-    public void onSaveAppt(ActionEvent actionEvent) {
-        if (modifiedAppt == null) {
-            String createdBy;
-            String create;
+
+    public void onSaveAppt(ActionEvent actionEvent) throws IOException {
+        String startTime = verifyDateFormat(apptStartTimeField.getText());
+        String endTime = verifyTimeFormat(apptEndTimeField.getText());
+        verifyOverlap(startTime, endTime);
+        String end = apptEndDateField.getText() + " " + endTime;
+        String start = apptStartDateField.getText() + " " + startTime;
+        int custId = 0;
+        int userId = 0;
+        if (checkForInt(apptCustIdField.getText())) {
+            custId = Integer.parseInt(apptCustIdField.getText());
+        }  else {
+// set error label text
+            errors = true;
+        }
+        if (checkForInt(apptUserIdField.getText())) {
+            userId = Integer.parseInt(apptUserIdField.getText());
+        }  else {
+// set error label text
+            errors = true;
         }
         String title = apptTitleField.getText();
         String desc = apptDescField.getText();
         String loc = apptLocField.getText();
         String type = apptTypeField.getText();
-        String end = apptEndDateField.getText();
-        String start = apptStartDateField.getText();
-        String update;
-        String updatedBy;
-        int custId = parseInt(apptCustIdField.getText());
-        int userId = parseInt(apptUserIdField.getText());
+        String userName = User.getUserName();
         String contact = apptContactField.getValue();
-        System.out.println(contact);
+        int contactId = 0;
         int id = parseInt(apptIdField.getText());
-        System.out.println(id);
+        ObservableList<Contact> allContacts = sqlCon.getContactList();
+        for (Contact c : allContacts) {
+            if (Objects.equals(c.getName(), contact)) {
+                contactId = c.getId();
+            }
+        }
         try {
-            String custQuery = String.format("INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)", id, title, desc, loc);
-//            INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)
-//            INSERT INTO appointments VALUES(2, 'title', 'description', 'location', 'De-Briefing', '2020-05-29 12:00:00', '2020-05-29 13:00:00', NOW(), 'script', NOW(), 'script', 2, 2, 2)
+            String custQuery;
+            if (modifiedAppt == null) {
+                custQuery = String.format("INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', '%s'," +
+                                " '%s', '%s', NOW(), '%s', NOW(), '%s', %d, %d, %d)",
+                        id, title, desc, loc, type, start, end, userName, userName, custId, userId, contactId);
+            } else {
+                custQuery = String.format("UPDATE appointments SET Title = '%s', Description = '%s', Location = '%s', Type = '%s'," +
+                        "Start ='%s', End = '%s', Last_Update = NOW()," +
+                        "Last_Updated_By = '%s', Customer_ID = %d, User_ID = %d, Contact_ID = %d WHERE Appointment_ID = %d", title, desc, loc, type, start, end, userName, custId, userId, contactId, id);
+            }
             PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
             myPs.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        modifiedAppt = null;
+        backToMain(actionEvent);
+    }
+
+    private void verifyOverlap(String startTime, String endTime) {
+//        verify overlap and errors = true if wrong. set error label
+    }
+
+    private String verifyTimeFormat(String text) {
+//        verify format and errors = true if wrong set error label
+        return text;
+    }
+
+    private String verifyDateFormat(String text) {
+//        verify format and errors =  if wrong. set error label
+        return text;
+    }
+
+    private boolean checkForInt(String str) {
+        try {
+            Integer.parseInt(str);
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

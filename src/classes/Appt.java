@@ -39,43 +39,8 @@ public class Appt {
     this.created = created;
     this.update = update;
     this.updatedBy = updatedBy;
-
-
     }
 
-    public static ObservableList<Appt> getApptList() {
-        ObservableList<Appt> allAppts = FXCollections.observableArrayList();
-
-        try {
-            String query = "SELECT * from appointments";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
-            ResultSet myResult = myPs.executeQuery();
-
-            while(myResult.next()) {
-                int id = myResult.getInt("Appointment_ID");
-                String title = myResult.getString("Title");
-                String start = myResult.getString("Start");
-                String desc = myResult.getString("Description");
-                int contact = myResult.getInt("Contact_ID");
-                String loc = myResult.getString("Location");
-                String type = myResult.getString("Type");
-                String end = myResult.getString("End");
-                int custId = myResult.getInt("Customer_ID");
-                int userId = myResult.getInt("User_ID");
-                String createdBy = myResult.getString("Created_By");
-                String created = myResult.getString("Create_Date");
-                String update = myResult.getString("Last_Update");
-                String updatedBy = myResult.getString("Last_Updated_By");
-
-                Appt appt = new Appt(id, title, start, desc, contact, loc, type, end, custId, userId, createdBy, created, update, updatedBy);
-                allAppts.add(appt);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return allAppts;
-    }
 
     public String getTitle() {
         return this.title;
@@ -125,6 +90,7 @@ public class Appt {
     public void setEnd(String end) {
         this.end = end;
     }
+
     public Integer getCustId() {
         return custId;
     }

@@ -3,6 +3,7 @@ package controller;
 import classes.Appt;
 import classes.Customer;
 import databaseHelp.sqlCon;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class MainFormController {
+    public void onExit() {
+        Platform.exit();
+    }
+
     public void initialize() {
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -149,7 +154,7 @@ public class MainFormController {
             Appt deletedAppt = apptTable.getSelectionModel().getSelectedItem();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Delete");
-            alert.setHeaderText("Delete " + deletedAppt.getTitle() + " at " + deletedAppt.getStart());
+            alert.setHeaderText("Delete " + deletedAppt.getType() + " at " + deletedAppt.getStart());
             alert.setContentText("Are you sure?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
