@@ -3,6 +3,7 @@ package databaseHelp;
 import classes.Appt;
 import classes.Contact;
 import classes.Customer;
+import classes.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -166,5 +167,22 @@ public abstract class sqlCon {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ObservableList<Integer> getUserIds() {
+        ObservableList<Integer> allUserIds = FXCollections.observableArrayList();
+
+        try {
+            String query = "SELECT * from users";
+            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                int id = myResult.getInt("User_ID");
+                allUserIds.add(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allUserIds;
     }
 }

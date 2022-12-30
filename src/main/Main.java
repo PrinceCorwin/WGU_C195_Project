@@ -40,6 +40,5 @@ public class Main extends Application {
         openingStage.getIcons().add(new Image("/assets/icon3.png"));
         openingStage.setScene(scene);
         openingStage.show();
-
     }
 }

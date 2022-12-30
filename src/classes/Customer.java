@@ -43,54 +43,8 @@ public class Customer {
 
     }
 
-    public static ObservableList<Customer> getCustomerList() {
-        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-
-        try {
-            String query = "SELECT * from customers";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
-            ResultSet myResult = myPs.executeQuery();
-
-            while(myResult.next()) {
-                int id = myResult.getInt("Customer_ID");
-                String name = myResult.getString("Customer_Name");
-                String address = myResult.getString("Address");
-                String zip = myResult.getString("Postal_Code");
-                String phone = myResult.getString("Phone");
-                String create = myResult.getString("Create_Date");
-                String createdBy = myResult.getString("Created_By");
-                String update = myResult.getString("Last_Update");
-                String updatedBy = myResult.getString("Last_Updated_By");
-                int divId = myResult.getInt("Division_ID");
-
-                String divQuery = String.format("SELECT * FROM first_level_divisions WHERE Division_ID = %d", divId);
-                PreparedStatement divPs = sqlCon.getConnection().prepareStatement(divQuery);
-                ResultSet divResult = divPs.executeQuery();
-
-//                String country = divResult.getString("Country");
-                while(divResult.next()) {
-                    String state = divResult.getString("Division");
-
-                    int countryId = divResult.getInt("Country_ID");
-                    String countryQuery = String.format("SELECT * FROM countries WHERE Country_ID = %d", countryId);
-                    PreparedStatement countryPs = sqlCon.getConnection().prepareStatement(countryQuery);
-                    ResultSet countryResult = countryPs.executeQuery();
-
-                    while(countryResult.next()) {
-                        String country = countryResult.getString("Country");
-                        Customer cust = new Customer(id, name, address, zip, phone, create, createdBy, update, updatedBy, divId, state, country);
-                        allCustomers.add(cust);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return allCustomers;
-    }
-
     public String getName() {
-        return this.name;
+        return name;
     }
     public void setName(String name) {
         this.name = name;

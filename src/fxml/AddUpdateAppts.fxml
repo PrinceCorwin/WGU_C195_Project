@@ -15,8 +15,8 @@
    <TextField fx:id="apptTypeField" layoutX="409.0" layoutY="285.0" promptText="TYPE" />
    <TextField fx:id="apptLocField" layoutX="43.0" layoutY="406.0" promptText="LOCATION" />
    <TextField fx:id="apptDescField" layoutX="43.0" layoutY="367.0" promptText="DESCRIPTION" />
-   <TextField fx:id="apptCustIdField" layoutX="409.0" layoutY="329.0" promptText="CUSTOMER ID" />
-   <TextField fx:id="apptUserIdField" layoutX="409.0" layoutY="367.0" promptText="USER ID" />
+<!--   <TextField fx:id="apptCustIdField" layoutX="409.0" layoutY="329.0" promptText="CUSTOMER ID" />-->
+<!--   <TextField fx:id="apptUserIdField" layoutX="409.0" layoutY="452.0" promptText="USER ID" />-->
    <ComboBox fx:id="apptContactField" accessibleRole="DATE_PICKER" layoutX="408.0" layoutY="406.0" prefWidth="150.0" promptText="CONTACT" />
    <AnchorPane layoutX="1.0" layoutY="82.0" prefHeight="176.0" prefWidth="600.0" style="-fx-background-color: white;">
       <TextField fx:id="apptEndDateField" layoutX="408.4" layoutY="62.0" promptText="DATE (ex YYYY-MM-DD)" />
@@ -34,4 +34,6 @@
       </Label>
    </AnchorPane>
    <Label layoutX="43.0" layoutY="477.0" text="ERRORS" textFill="RED" />
+   <ComboBox fx:id="apptCustIdField" layoutX="408.0" layoutY="329.0" prefWidth="150.0" promptText="CUSTOMER ID" />
+   <ComboBox fx:id="apptUserIdField" layoutX="408.0" layoutY="367.0" prefWidth="150.0" promptText="USER ID" />
 </AnchorPane>
