@@ -20,11 +20,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static java.lang.Integer.parseInt;
 
 public class AddUpdateApptsController {
+
     ObservableList<Contact> allContacts = sqlCon.getContactList();
 
     boolean errors = false;
@@ -53,8 +57,8 @@ public class AddUpdateApptsController {
     }
 
     public void initialize() {
-//        ObservableList<Appt> allAppts =  FXCollections.observableArrayList();
-//        ObservableList<Contact> allContacts = sqlCon.getContactList();
+        localToUTC(modifiedAppt.getStart());
+        utcToLocal(modifiedAppt.getStart());
         ObservableList<Customer> allCustomers = sqlCon.getCustomerList();
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         ObservableList<Integer> custIds = FXCollections.observableArrayList();
@@ -90,9 +94,7 @@ public class AddUpdateApptsController {
             apptDescField.setText(modifiedAppt.getDesc());
             apptTitleField.setText(modifiedAppt.getTitle());
             apptLocField.setText(modifiedAppt.getLoc());
-//            apptCustIdField.setText(modifiedAppt.getId().toString());
             apptTypeField.setText(modifiedAppt.getType());
-//            apptUserIdField.setText(modifiedAppt.getUserId().toString());
             apptIdField.setText(modifiedAppt.getId().toString());
             apptStartDateField.setText(splitDateTime((modifiedAppt.getStart()), "date"));
             apptEndDateField.setText(splitDateTime((modifiedAppt.getEnd()), "date"));
@@ -137,26 +139,25 @@ public class AddUpdateApptsController {
     }
 
     public void onSaveAppt(ActionEvent actionEvent) throws IOException {
+        errors = false;
         String startTime = verifyDateFormat(apptStartTimeField.getText());
         String endTime = verifyTimeFormat(apptEndTimeField.getText());
-        verifyOverlap(startTime, endTime);
+        if (!verifyNoOverlap(startTime, endTime)) {
+            errors = true;
+        }
         String end = apptEndDateField.getText() + " " + endTime;
         String start = apptStartDateField.getText() + " " + startTime;
+        localToUTC(start);
         int userId = 0;
         String contact = "";
         int custId = 0;
-//        if (checkForInt(apptUserIdField.getText())) {
-//            userId = Integer.parseInt(apptUserIdField.getText());
-//        }  else {
-//// set error label text
-//            errors = true;
-//        }
         String title = apptTitleField.getText();
         String desc = apptDescField.getText();
         String loc = apptLocField.getText();
         String type = apptTypeField.getText();
         String userName = User.getUserName();
-        if (checkForSelect()) {
+        ComboBox[] comboArray = {apptContactField, apptCustIdField, apptUserIdField};
+        if (checkForSelect(comboArray)) {
             contact = apptContactField.getValue();
             custId = apptCustIdField.getValue();
             userId = apptUserIdField.getValue();
@@ -167,7 +168,6 @@ public class AddUpdateApptsController {
 
         int contactId = 0;
         int id = parseInt(apptIdField.getText());
-//        ObservableList<Contact> allContacts = sqlCon.getContactList();
         for (Contact c : allContacts) {
             if (Objects.equals(c.getName(), contact)) {
                 contactId = c.getId();
@@ -195,25 +195,20 @@ public class AddUpdateApptsController {
         }
     }
 
-    private boolean checkForSelect() {
-        if (apptCustIdField.getSelectionModel().isEmpty()) {
-//            set error label
-            return false;
-        }
-        if (apptContactField.getSelectionModel().isEmpty()) {
-//            set error label
-            return false;
-        }
-        if (apptUserIdField.getSelectionModel().isEmpty()) {
-//            set error label
-            return false;
+    private boolean checkForSelect(ComboBox[] comboArray) {
+        for (ComboBox c : comboArray) {
+            if (c.getSelectionModel().isEmpty()) {
+//                set error lable
+                return false;
+            }
         }
         System.out.println("selected");
         return true;
     }
 
-    private void verifyOverlap(String startTime, String endTime) {
+    private boolean verifyNoOverlap(String startTime, String endTime) {
 //        verify overlap and errors = true if wrong. set error label
+        return true;
     }
 
     private String verifyTimeFormat(String text) {
@@ -234,5 +229,46 @@ public class AddUpdateApptsController {
             return false;
         }
         return true;
+    }
+    public String localToUTC(String time) {
+//        System.out.println(time);
+
+        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        localFormat.setTimeZone(TimeZone.getDefault());
+        Date localTime = null;
+
+
+        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        String utcTime = "";
+        try {
+            localTime = localFormat.parse("2020-12-30 10:10:10");
+            utcTime = utcFormat.format(localTime);
+            System.out.println(utcTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return utcTime;
+    }
+    public String utcToLocal(String currentTime) {
+//        System.out.println(currentTime);
+
+        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        localFormat.setTimeZone(TimeZone.getDefault());
+        Date utcTime = null;
+
+        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        String localTime = "";
+        try {
+            utcTime = utcFormat.parse("2020-12-30 10:10:10");
+            localTime = localFormat.format(utcTime);
+            System.out.println(localTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return localTime;
     }
 }

@@ -13,9 +13,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class LoginScreenController {
     public Button loginSubmit;
@@ -27,6 +28,42 @@ public class LoginScreenController {
     public Label locationLabel;
 
     public void initialize() {
+//        System.out.println(Instant.now().toString());
+//        System.out.println("2022-12-30 13:15:32");
+//        System.out.println(LocalDateTime.parse("2022-12-30 13:15:32", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                .atOffset(ZoneOffset.UTC)
+//                .toString());
+        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
+        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:05" , f ) ;
+        String str = ZonedDateTime.now(
+                ZoneId.systemDefault()
+        ).getZone().toString();
+        System.out.println(str);
+        ZoneId z = ZoneId.of(str) ;
+        ZonedDateTime zdt = ldt.atZone( z );
+        OffsetDateTime odt = ldt.atOffset( ZoneOffset.UTC );
+        System.out.println(odt);
+
+//        local to UTC
+        String datesToConvert = "31-12-2018 23:37:00";
+        String dateFormat = "dd-MM-yyyy HH:mm:ss";
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat(dateFormat);
+        sdf2.setTimeZone(TimeZone.getDefault());
+        Date gmt = null;
+
+        SimpleDateFormat sdfOutPutToSend = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdfOutPutToSend.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            gmt = sdf2.parse(datesToConvert);
+            System.out.println("UTC FORMATTED DATE : " + sdfOutPutToSend.format(gmt));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         Locale currentLocale = Locale.getDefault();
         String currentLocation = currentLocale.getDisplayCountry();
         String lang = currentLocale.getLanguage();

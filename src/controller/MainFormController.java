@@ -14,8 +14,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class MainFormController {
     public void onExit() {
@@ -23,6 +25,30 @@ public class MainFormController {
     }
 
     public void initialize() {
+        System.out.println(Instant.now().toString());
+        System.out.println("2022-12-30 13:15:32");
+        System.out.println(LocalDateTime.parse("2022-12-30 13:15:32", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                .atOffset(ZoneOffset.UTC)
+                .toString());
+        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
+        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:00" , f ) ;
+        ZoneId z = ZoneId.of( "UTC" ) ;
+        ZonedDateTime zdt = ldt.atZone( z ) ;
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//
+////Here you say to java the initial timezone. This is the secret
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+////Will print in UTC
+//        System.out.println("UTC " + sdf.format(calendar.getTime()));
+//
+////Here you set to your timezone
+//        sdf.setTimeZone(TimeZone.getDefault());
+////Will print on your default Timezone
+//        System.out.println("CST " + sdf.format(calendar.getTime()));
+
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
