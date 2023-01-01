@@ -2,7 +2,7 @@ package controller;
 
 import classes.Appt;
 import classes.Customer;
-import databaseHelp.sqlCon;
+import databaseHelp.SqlCon;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,9 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MainFormController {
@@ -25,15 +22,15 @@ public class MainFormController {
     }
 
     public void initialize() {
-        System.out.println(Instant.now().toString());
-        System.out.println("2022-12-30 13:15:32");
-        System.out.println(LocalDateTime.parse("2022-12-30 13:15:32", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                .atOffset(ZoneOffset.UTC)
-                .toString());
-        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
-        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:00" , f ) ;
-        ZoneId z = ZoneId.of( "UTC" ) ;
-        ZonedDateTime zdt = ldt.atZone( z ) ;
+//        System.out.println(Instant.now().toString());
+//        System.out.println("2022-12-30 13:15:32");
+//        System.out.println(LocalDateTime.parse("2022-12-30 13:15:32", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//                .atOffset(ZoneOffset.UTC)
+//                .toString());
+//        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
+//        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:00" , f ) ;
+//        ZoneId z = ZoneId.of( "UTC" ) ;
+//        ZonedDateTime zdt = ldt.atZone( z ) ;
 
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
@@ -67,9 +64,9 @@ public class MainFormController {
         custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         custState.setCellValueFactory(new PropertyValueFactory<>("state"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        custCreateDate.setCellValueFactory(new PropertyValueFactory<>("create"));
+        custCreateDate.setCellValueFactory(new PropertyValueFactory<>("createDate"));
         custCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
-        custLastUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
+        custLastUpdate.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
         custUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("updatedBy"));
         custDivId.setCellValueFactory(new PropertyValueFactory<>("divId"));
 
@@ -106,8 +103,8 @@ public class MainFormController {
     public ToggleGroup radioToggle;
     public RadioButton weekApptView;
     public RadioButton monthApptView;
-    private ObservableList<Customer> customers = sqlCon.getCustomerList();
-    private ObservableList<Appt> appts = sqlCon.getApptList();
+    private ObservableList<Customer> customers = SqlCon.getCustomerList();
+    private ObservableList<Appt> appts = SqlCon.getApptList();
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -146,8 +143,8 @@ public class MainFormController {
             alert.setContentText("Are you sure?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                sqlCon.deleteCust(deletedCust);
-                custTable.setItems(sqlCon.getCustomerList());
+                SqlCon.deleteCust(deletedCust);
+                custTable.setItems(SqlCon.getCustomerList());
             }
         }
     }
@@ -155,7 +152,7 @@ public class MainFormController {
     public void onAddAppt(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 700);
+        Scene scene = new Scene(root, 600, 500);
         stage.setScene(scene);
         stage.show();
     }
@@ -168,7 +165,7 @@ public class MainFormController {
             AddUpdateApptsController.setModifiedAppt(appt);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));
             Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 600, 700);
+            Scene scene = new Scene(root, 600, 500);
             stage.setScene(scene);
             stage.show();
         }
@@ -184,8 +181,8 @@ public class MainFormController {
             alert.setContentText("Are you sure?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                sqlCon.deleteAppt(deletedAppt);
-                apptTable.setItems(sqlCon.getApptList());
+                SqlCon.deleteAppt(deletedAppt);
+                apptTable.setItems(SqlCon.getApptList());
             }
         }
 

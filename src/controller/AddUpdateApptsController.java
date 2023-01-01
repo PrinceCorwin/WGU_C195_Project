@@ -4,7 +4,8 @@ import classes.Appt;
 import classes.Contact;
 import classes.Customer;
 import classes.User;
-import databaseHelp.sqlCon;
+import databaseHelp.SqlCon;
+import databaseHelp.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,19 +21,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import static java.lang.Integer.parseInt;
 
 public class AddUpdateApptsController {
 
-    ObservableList<Contact> allContacts = sqlCon.getContactList();
+    ObservableList<Contact> allContacts = SqlCon.getContactList();
 
-    boolean errors = false;
-
+//    boolean errors = false;
+    public Label errorLabel;
     public TextField apptIdField;
     public TextField apptTitleField;
     public TextField apptTypeField;
@@ -57,12 +55,10 @@ public class AddUpdateApptsController {
     }
 
     public void initialize() {
-        localToUTC(modifiedAppt.getStart());
-        utcToLocal(modifiedAppt.getStart());
-        ObservableList<Customer> allCustomers = sqlCon.getCustomerList();
+        ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         ObservableList<Integer> custIds = FXCollections.observableArrayList();
-        ObservableList<Integer> allUserIds = sqlCon.getUserIds();
+        ObservableList<Integer> allUserIds = SqlCon.getUserIds();
 
         for(Contact c : allContacts) {
             contactNames.add(c.getName());
@@ -124,7 +120,7 @@ public class AddUpdateApptsController {
 
     private int getUniqueId() {
         int count = 0;
-        ObservableList<Appt> appts = sqlCon.getApptList();
+        ObservableList<Appt> appts = SqlCon.getApptList();
         boolean unique;
         do {
             unique = true;
@@ -139,40 +135,49 @@ public class AddUpdateApptsController {
     }
 
     public void onSaveAppt(ActionEvent actionEvent) throws IOException {
-        errors = false;
-        String startTime = verifyDateFormat(apptStartTimeField.getText());
-        String endTime = verifyTimeFormat(apptEndTimeField.getText());
-        if (!verifyNoOverlap(startTime, endTime)) {
-            errors = true;
-        }
-        String end = apptEndDateField.getText() + " " + endTime;
-        String start = apptStartDateField.getText() + " " + startTime;
-        localToUTC(start);
-        int userId = 0;
-        String contact = "";
-        int custId = 0;
+        hideErrors();
+        boolean errors = false;
+        String startTime = null;
+        String endTime = null;
+        String end = null;
+        String start = null;
         String title = apptTitleField.getText();
         String desc = apptDescField.getText();
         String loc = apptLocField.getText();
         String type = apptTypeField.getText();
         String userName = User.getUserName();
-        ComboBox[] comboArray = {apptContactField, apptCustIdField, apptUserIdField};
-        if (checkForSelect(comboArray)) {
-            contact = apptContactField.getValue();
-            custId = apptCustIdField.getValue();
-            userId = apptUserIdField.getValue();
-        } else {
-//            set error label text
-            errors = true;
-        }
-
+        int userId = 0;
+        String contact = "";
+        int custId = 0;
         int contactId = 0;
         int id = parseInt(apptIdField.getText());
-        for (Contact c : allContacts) {
-            if (Objects.equals(c.getName(), contact)) {
-                contactId = c.getId();
+
+        if (Helper.verifyTimeFormat(apptStartTimeField.getText()) && Helper.verifyTimeFormat(apptEndTimeField.getText())
+                && Helper.verifyDateFormat(apptEndDateField.getText()) && Helper.verifyDateFormat(apptStartDateField.getText())) {
+            startTime = apptStartTimeField.getText();
+            endTime = apptEndTimeField.getText();
+            end = Helper.localToUTC(apptEndDateField.getText() + " " + endTime);
+            start = Helper.localToUTC(apptStartDateField.getText() + " " + startTime);
+            ComboBox[] comboArray = {apptContactField, apptCustIdField, apptUserIdField};
+            if (checkForSelect(comboArray)) {
+                contact = apptContactField.getValue();
+                custId = apptCustIdField.getValue();
+                userId = apptUserIdField.getValue();
+                for (Contact c : allContacts) {
+                    if (Objects.equals(c.getName(), contact)) {
+                        contactId = c.getId();
+                    }
+                }
+                if (!verifyTimeAvailable(start, end, startTime, endTime, custId)) {
+                    errors = true;
+                }
             }
+        } else {
+            errors = true;
+            errorLabel.setText("Date must be entered in yyyy-MM-dd format. \nTime must be entered in HH:mm:ss format");
         }
+
+
         if(!errors) {
             try {
                 String custQuery;
@@ -183,9 +188,10 @@ public class AddUpdateApptsController {
                 } else {
                     custQuery = String.format("UPDATE appointments SET Title = '%s', Description = '%s', Location = '%s', Type = '%s'," +
                             "Start ='%s', End = '%s', Last_Update = NOW()," +
-                            "Last_Updated_By = '%s', Customer_ID = %d, User_ID = %d, Contact_ID = %d WHERE Appointment_ID = %d", title, desc, loc, type, start, end, userName, custId, userId, contactId, id);
+                            "Last_Updated_By = '%s', Customer_ID = %d, User_ID = %d, Contact_ID = %d WHERE Appointment_ID = %d",
+                            title, desc, loc, type, start, end, userName, custId, userId, contactId, id);
                 }
-                PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+                PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
                 myPs.executeUpdate();
                 modifiedAppt = null;
                 backToMain(actionEvent);
@@ -193,6 +199,10 @@ public class AddUpdateApptsController {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void hideErrors() {
+//        reset all error labels
     }
 
     private boolean checkForSelect(ComboBox[] comboArray) {
@@ -206,69 +216,16 @@ public class AddUpdateApptsController {
         return true;
     }
 
-    private boolean verifyNoOverlap(String startTime, String endTime) {
-//        verify overlap and errors = true if wrong. set error label
-        return true;
-    }
-
-    private String verifyTimeFormat(String text) {
-//        verify format and errors = true if wrong set error label
-        return text;
-    }
-
-    private String verifyDateFormat(String text) {
-//        verify format and errors =  if wrong. set error label
-        return text;
-    }
-
-    private boolean checkForInt(String str) {
-        try {
-            Integer.parseInt(str);
+    private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId) {
+        if (!SqlCon.verifyOverlap(start, end, custId)) {
+            errorLabel.setText("Error: Appointment time overlaps another appointment \nwith the same customer");
+            return false;
         }
-        catch(NumberFormatException e) {
+        if (!Helper.verifyBusHours(startTime, endTime)) {
+            errorLabel.setText("Error: Appointment time is outside of business hours" +
+                    " \nBusiness hours: (08:00:00 - 22:00:00 EST ");
             return false;
         }
         return true;
-    }
-    public String localToUTC(String time) {
-//        System.out.println(time);
-
-        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        localFormat.setTimeZone(TimeZone.getDefault());
-        Date localTime = null;
-
-
-        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        String utcTime = "";
-        try {
-            localTime = localFormat.parse("2020-12-30 10:10:10");
-            utcTime = utcFormat.format(localTime);
-            System.out.println(utcTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return utcTime;
-    }
-    public String utcToLocal(String currentTime) {
-//        System.out.println(currentTime);
-
-        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        localFormat.setTimeZone(TimeZone.getDefault());
-        Date utcTime = null;
-
-        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        String localTime = "";
-        try {
-            utcTime = utcFormat.parse("2020-12-30 10:10:10");
-            localTime = localFormat.format(utcTime);
-            System.out.println(localTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return localTime;
     }
 }

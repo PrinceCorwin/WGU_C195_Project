@@ -1,23 +1,19 @@
 package classes;
 
-import databaseHelp.sqlCon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Customer {
     private int id;
     private String address;
     private String zip;
     private String phone;
-    private String create;
+    private String createDate;
     private String createdBy;
-    private String update;
+    private String lastUpdate;
     private String updatedBy;
     private int divId;
+
     private String name;
     private String state;
     private String country;
@@ -26,16 +22,16 @@ public class Customer {
     private static final ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
     public Customer(int id, String name, String address, String zip, String phone,
-                    String create, String createdBy, String update, String updatedBy,
+                    String createDate, String createdBy, String lastUpdate, String updatedBy,
                     int divId, String state, String country) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.zip = zip;
         this.phone = phone;
-        this.create = create;
+        this.createDate = createDate;
         this.createdBy = createdBy;
-        this.update = update;
+        this.lastUpdate = lastUpdate;
         this.updatedBy = updatedBy;
         this.divId = divId;
         this.state = state;
@@ -73,11 +69,11 @@ public class Customer {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public String getCreate() {
-        return create;
+    public String getCreateDate() {
+        return createDate;
     }
-    public void setCreate(String create) {
-        this.create = create;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
     public String getCreatedBy() {
         return createdBy;
@@ -85,11 +81,11 @@ public class Customer {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    public String getUpdate() {
-        return update;
+    public String getLastUpdate() {
+        return lastUpdate;
     }
-    public void setUpdate(String update) {
-        this.update = update;
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
     public String getUpdatedBy() {
         return updatedBy;

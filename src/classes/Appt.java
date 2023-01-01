@@ -1,12 +1,5 @@
 package classes;
 
-import databaseHelp.sqlCon;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class Appt {
     private String desc;
     private int contact;
@@ -16,15 +9,15 @@ public class Appt {
     private int custId;
     private int userId;
     private String createdBy;
-    private String created;
-    private String update;
+    private String createDate;
+    private String lastUpdate;
     private String updatedBy;
     private int id;
     private String title;
     private String start;
 
     public Appt(int id, String title, String start, String desc, int contact, String loc, String type,
-                String end, int custId, int userId, String createdBy, String created, String update, String updatedBy) {
+                String end, int custId, int userId, String createdBy, String createDate, String lastUpdate, String updatedBy) {
     this.title = title;
     this.id = id;
     this.start = start;
@@ -36,8 +29,8 @@ public class Appt {
     this.custId = custId;
     this.userId = userId;
     this.createdBy = createdBy;
-    this.created = created;
-    this.update = update;
+    this.createDate = createDate;
+    this.lastUpdate = lastUpdate;
     this.updatedBy = updatedBy;
     }
 
@@ -109,17 +102,17 @@ public class Appt {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    public String getCreated() {
-        return created;
+    public String getCreateDate() {
+        return createDate;
     }
-    public void setCreated(String createdBy) {
-        this.created = created;
+    public void setCreateDate(String createdBy) {
+        this.createDate = createDate;
     }
-    public String getUpdate() {
-        return update;
+    public String getLastUpdate() {
+        return lastUpdate;
     }
-    public void setUpdate(String update) {
-        this.update = update;
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
     public String getUpdatedBy() {
         return updatedBy;

@@ -1,15 +1,18 @@
 package databaseHelp;
 
+import databaseHelp.Helper;
 import classes.Appt;
 import classes.Contact;
 import classes.Customer;
-import classes.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
-public abstract class sqlCon {
+public abstract class SqlCon {
     private static final String sqlProtocol = "jdbc";
     private static final String splVend = ":mysql:";
     private static final String sqlDbLoc = "//localhost/";
@@ -54,26 +57,26 @@ public abstract class sqlCon {
 
         try {
             String query = "SELECT * from appointments";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
 
             while(myResult.next()) {
                 int id = myResult.getInt("Appointment_ID");
                 String title = myResult.getString("Title");
-                String start = myResult.getString("Start");
+                String start = Helper.utcToLocal(myResult.getString("Start"));
                 String desc = myResult.getString("Description");
                 int contact = myResult.getInt("Contact_ID");
                 String loc = myResult.getString("Location");
                 String type = myResult.getString("Type");
-                String end = myResult.getString("End");
+                String end = Helper.utcToLocal(myResult.getString("End"));
                 int custId = myResult.getInt("Customer_ID");
                 int userId = myResult.getInt("User_ID");
                 String createdBy = myResult.getString("Created_By");
-                String created = myResult.getString("Create_Date");
-                String update = myResult.getString("Last_Update");
+                String createDate = Helper.utcToLocal(myResult.getString("Create_Date"));
+                String lastUpdate = Helper.utcToLocal(myResult.getString("Last_Update"));
                 String updatedBy = myResult.getString("Last_Updated_By");
 
-                Appt appt = new Appt(id, title, start, desc, contact, loc, type, end, custId, userId, createdBy, created, update, updatedBy);
+                Appt appt = new Appt(id, title, start, desc, contact, loc, type, end, custId, userId, createdBy, createDate, lastUpdate, updatedBy);
                 allAppts.add(appt);
 
             }
@@ -87,7 +90,7 @@ public abstract class sqlCon {
 
         try {
             String query = "SELECT * from customers";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
 
             while(myResult.next()) {
@@ -96,14 +99,14 @@ public abstract class sqlCon {
                 String address = myResult.getString("Address");
                 String zip = myResult.getString("Postal_Code");
                 String phone = myResult.getString("Phone");
-                String create = myResult.getString("Create_Date");
+                String createDate = myResult.getString("Create_Date");
                 String createdBy = myResult.getString("Created_By");
                 String update = myResult.getString("Last_Update");
                 String updatedBy = myResult.getString("Last_Updated_By");
                 int divId = myResult.getInt("Division_ID");
 
                 String divQuery = String.format("SELECT * FROM first_level_divisions WHERE Division_ID = %d", divId);
-                PreparedStatement divPs = sqlCon.getConnection().prepareStatement(divQuery);
+                PreparedStatement divPs = SqlCon.getConnection().prepareStatement(divQuery);
                 ResultSet divResult = divPs.executeQuery();
 
 //                String country = divResult.getString("Country");
@@ -112,12 +115,12 @@ public abstract class sqlCon {
                     int countryId = divResult.getInt("Country_ID");
 
                     String countryQuery = String.format("SELECT * FROM countries WHERE Country_ID = %d", countryId);
-                    PreparedStatement countryPs = sqlCon.getConnection().prepareStatement(countryQuery);
+                    PreparedStatement countryPs = SqlCon.getConnection().prepareStatement(countryQuery);
                     ResultSet countryResult = countryPs.executeQuery();
 
                     while(countryResult.next()) {
                         String country = countryResult.getString("Country");
-                        Customer cust = new Customer(id, name, address, zip, phone, create, createdBy, update, updatedBy, divId, state, country);
+                        Customer cust = new Customer(id, name, address, zip, phone, createDate, createdBy, update, updatedBy, divId, state, country);
                         allCustomers.add(cust);
                     }
                 }
@@ -133,7 +136,7 @@ public abstract class sqlCon {
 
         try {
             String query = "SELECT * from contacts";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
             while(myResult.next()) {
                 int id = myResult.getInt("Contact_ID");
@@ -150,7 +153,7 @@ public abstract class sqlCon {
         try {
             int id = deletedCust.getId();
             String custQuery = String.format("DELETE FROM customers WHERE Customer_ID = %d", id);
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
             myPs.executeUpdate();
 
         } catch (SQLException e) {
@@ -161,7 +164,7 @@ public abstract class sqlCon {
         try {
             int id = deletedAppt.getId();
             String custQuery = String.format("DELETE FROM appointments WHERE Appointment_ID = %d", id);
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(custQuery);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
             myPs.executeUpdate();
 
         } catch (SQLException e) {
@@ -174,7 +177,7 @@ public abstract class sqlCon {
 
         try {
             String query = "SELECT * from users";
-            PreparedStatement myPs = sqlCon.getConnection().prepareStatement(query);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
             while(myResult.next()) {
                 int id = myResult.getInt("User_ID");
@@ -184,5 +187,44 @@ public abstract class sqlCon {
             e.printStackTrace();
         }
         return allUserIds;
+    }
+
+    public static boolean verifyOverlap(String start, String end, int custId) {
+        try {
+            String query = String.format("SELECT * from appointments WHERE Customer_ID = %d", custId);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                int id = myResult.getInt("Customer_ID");
+                if (custId != id) {
+                    String checkStart = myResult.getString("Start");
+                    String checkEnd = myResult.getString("End");
+                    SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    java.util.Date existingStart;
+                    java.util.Date existingEnd;
+                    java.util.Date newStart;
+                    java.util.Date newEnd;
+                    try {
+                        existingStart = utcFormat.parse(checkStart);
+                        existingEnd = utcFormat.parse(checkEnd);
+                        newStart = utcFormat.parse(start);
+                        newEnd = utcFormat.parse(end);
+                        if (newStart.after(existingStart) && newStart.before(existingEnd)) {
+                            return false;
+                        }
+                        if (newEnd.after(existingStart) && newEnd.before(existingEnd)) {
+                            return false;
+                        }
+                    } catch (ParseException e) {
+                        return false;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    return true;
     }
 }

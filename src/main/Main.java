@@ -1,6 +1,6 @@
 package main;
 
-import databaseHelp.sqlCon;
+import databaseHelp.SqlCon;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,10 +20,10 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
 
-        sqlCon.openConnection();
+        SqlCon.openConnection();
 
         launch(args);
-        sqlCon.closeConnection();
+        SqlCon.closeConnection();
     }
 
     /** The start method sets the stage and starts the first scene (LoginScreen.fxml).
