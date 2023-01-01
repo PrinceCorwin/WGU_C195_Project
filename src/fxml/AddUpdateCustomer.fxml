@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateCustomerController">
-   <children>
-      <Button layoutX="461.0" layoutY="325.0" mnemonicParsing="false" onAction="#onCustCancel" text="CANCEL" />
-   </children>
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateCustomerController">
+   <AnchorPane minWidth="-Infinity" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: black;">
+      <Label fx:id="custFormTitle" layoutX="40.0" layoutY="23.0" text="NEW CUSTOMER" textFill="#efefef">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <TextField fx:id="custIdField" disable="true" layoutX="114.0" layoutY="118.0" prefHeight="26.0" prefWidth="168.0" promptText="(AUTO GEN)" />
+   <TextField fx:id="custNameField" layoutX="80.0" layoutY="158.0" promptText="NAME" />
+   <TextField fx:id="custPhoneField" layoutX="85.0" layoutY="270.0" promptText="PHONE NUMBER" />
+   <TextField fx:id="custAddressField" layoutX="90.0" layoutY="195.0" prefHeight="26.0" prefWidth="277.0" promptText="ADDRESS" />
+   <TextField fx:id="custZipField" layoutX="114.0" layoutY="233.0" promptText="POSTAL CODE" />
+   <ComboBox fx:id="custCountryBox" layoutX="413.0" layoutY="158.0" prefWidth="150.0" promptText="COUNTRY" />
+   <ComboBox fx:id="custStateBox" layoutX="413.0" layoutY="195.0" prefWidth="150.0" promptText="STATE / PROVINCE" />
+   <Button layoutX="510.0" layoutY="394.0" mnemonicParsing="false" onAction="#onCustCancel" text="CANCEL" />
+   <Button layoutX="425.0" layoutY="394.0" mnemonicParsing="false" onAction="#onCustSave" text="SAVE" />
+   <Label fx:id="custErrorLabel" layoutX="38.0" layoutY="320.0" text="ERROR:" textFill="RED" />
+   <Label layoutX="39.0" layoutY="162.0" text="Name:" />
+   <Label layoutX="39.0" layoutY="200.0" text="Address:" />
+   <Label layoutX="39.0" layoutY="237.0" text="Postal Code:" />
+   <Label layoutX="38.0" layoutY="274.0" text="Phone:" />
+   <Label layoutX="38.0" layoutY="123.0" text="Customer ID" />
 </AnchorPane>

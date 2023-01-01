@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -34,7 +35,7 @@ public class AddUpdateApptsController {
     public TextField apptTitleField;
     public TextField apptTypeField;
     public TextField apptLocField;
-    public TextField apptDescField;
+    public TextArea apptDescField;
     public ComboBox<Integer> apptCustIdField;
     public ComboBox<Integer> apptUserIdField;
     public ComboBox<String> apptContactField;
@@ -43,15 +44,6 @@ public class AddUpdateApptsController {
     public TextField apptStartDateField;
     public TextField apptStartTimeField;
     public Label apptFormTitle;
-
-    public String splitDateTime(String dateStr, String dateOrTime) {
-        String[] splitDate = dateStr.split(" ", 2);
-        if (Objects.equals(dateOrTime, "time")) {
-            return splitDate[1];
-        } else {
-            return splitDate[0];
-        }
-    }
 
     public void initialize() {
         ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
@@ -118,26 +110,10 @@ public class AddUpdateApptsController {
         stage.show();
     }
 
-    private int getUniqueId() {
-        int count = 0;
-        ObservableList<Appt> appts = SqlCon.getApptList();
-        boolean unique;
-        do {
-            unique = true;
-            count++;
-            for (Appt a : appts) {
-                if (a.getId() == count) {
-                 unique = false;
-               }
-            }
-        } while (!unique);
-        return count;
-    }
-
     public void onSaveAppt(ActionEvent actionEvent) throws IOException {
         boolean errors = false;
-        String startTime = null;
-        String endTime = null;
+        String startTime;
+        String endTime;
         String end = null;
         String start = null;
         String title = apptTitleField.getText();
@@ -146,7 +122,7 @@ public class AddUpdateApptsController {
         String type = apptTypeField.getText();
         String userName = User.getUserName();
         int userId = 0;
-        String contact = "";
+        String contact;
         int custId = 0;
         int contactId = 0;
         int id = parseInt(apptIdField.getText());
@@ -227,5 +203,28 @@ public class AddUpdateApptsController {
             return false;
         }
         return true;
+    }
+    public String splitDateTime(String dateStr, String dateOrTime) {
+        String[] splitDate = dateStr.split(" ", 2);
+        if (Objects.equals(dateOrTime, "time")) {
+            return splitDate[1];
+        } else {
+            return splitDate[0];
+        }
+    }
+    public static int getUniqueId() {
+        int count = 0;
+        ObservableList<Appt> appts = SqlCon.getApptList();
+        boolean unique;
+        do {
+            unique = true;
+            count++;
+            for (Appt a : appts) {
+                if (a.getId() == count) {
+                    unique = false;
+                }
+            }
+        } while (!unique);
+        return count;
     }
 }

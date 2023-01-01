@@ -108,7 +108,7 @@ public class MainFormController {
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 700);
+        Scene scene = new Scene(root, 600, 450);
         stage.setScene(scene);
         stage.show();
     }
@@ -126,7 +126,7 @@ public class MainFormController {
             AddUpdateCustomerController.setModifiedCust(customer);
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
             Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 600, 700);
+            Scene scene = new Scene(root, 600, 450);
             stage.setScene(scene);
             stage.show();
         }

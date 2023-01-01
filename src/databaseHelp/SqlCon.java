@@ -6,7 +6,6 @@ import classes.Contact;
 import classes.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,10 +30,7 @@ public abstract class SqlCon {
             appConn = DriverManager.getConnection(sqlIp, appUser, password);
             System.out.println("You are connected");
         }
-        catch(Exception e)
-        {
-//            System.out.println("Error:" + e.getMessage());
-            e.printStackTrace();
+        catch(Exception e) {
         }
     }
 
@@ -109,7 +105,6 @@ public abstract class SqlCon {
                 PreparedStatement divPs = SqlCon.getConnection().prepareStatement(divQuery);
                 ResultSet divResult = divPs.executeQuery();
 
-//                String country = divResult.getString("Country");
                 while(divResult.next()) {
                     String state = divResult.getString("Division");
                     int countryId = divResult.getInt("Country_ID");

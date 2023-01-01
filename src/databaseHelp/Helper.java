@@ -1,5 +1,8 @@
 package databaseHelp;
 
+import classes.Appt;
+import javafx.collections.ObservableList;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,6 +107,21 @@ public class Helper {
         } catch (ParseException e) {
             return false;
         }
+    }
+    public static int getUniqueId() {
+        int count = 0;
+        ObservableList<Appt> appts = SqlCon.getApptList();
+        boolean unique;
+        do {
+            unique = true;
+            count++;
+            for (Appt a : appts) {
+                if (a.getId() == count) {
+                    unique = false;
+                }
+            }
+        } while (!unique);
+        return count;
     }
     public static boolean checkForInt(String str) {
         try {
