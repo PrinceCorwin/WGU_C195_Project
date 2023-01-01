@@ -83,10 +83,9 @@ public class Helper {
             return false;
         }
         try {
-            DateFormat df = new SimpleDateFormat("HH:mm:ss");
-            df.setLenient(false);
-            df.parse(time);
-            System.out.println(df);
+            DateFormat checkFormat = new SimpleDateFormat("HH:mm:ss");
+            checkFormat.setLenient(false);
+            checkFormat.parse(time);
             return true;
         } catch (ParseException e) {
             return false;

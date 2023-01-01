@@ -33,7 +33,7 @@
          </font>
       </Label>
    </AnchorPane>
-   <Label fx:id="errorLabel" layoutX="43.0" layoutY="433.0" text="ERRORS" textFill="RED" />
+   <Label fx:id="errorLabel" layoutX="43.0" layoutY="433.0" textFill="RED" />
    <ComboBox fx:id="apptCustIdField" layoutX="408.0" layoutY="295.0" prefWidth="150.0" promptText="CUSTOMER ID" />
    <ComboBox fx:id="apptUserIdField" layoutX="408.0" layoutY="333.0" prefWidth="150.0" promptText="USER ID" />
 </AnchorPane>

@@ -29,7 +29,6 @@ public class AddUpdateApptsController {
 
     ObservableList<Contact> allContacts = SqlCon.getContactList();
 
-//    boolean errors = false;
     public Label errorLabel;
     public TextField apptIdField;
     public TextField apptTitleField;
@@ -106,6 +105,7 @@ public class AddUpdateApptsController {
     }
 
     public void onApptCancel(ActionEvent actionEvent) throws IOException {
+        hideErrors();
         modifiedAppt = null;
         backToMain(actionEvent);
     }
@@ -135,7 +135,6 @@ public class AddUpdateApptsController {
     }
 
     public void onSaveAppt(ActionEvent actionEvent) throws IOException {
-        hideErrors();
         boolean errors = false;
         String startTime = null;
         String endTime = null;
@@ -171,10 +170,13 @@ public class AddUpdateApptsController {
                 if (!verifyTimeAvailable(start, end, startTime, endTime, custId)) {
                     errors = true;
                 }
+            } else {
+                errorLabel.setText("Error: Please select an option in each of the drop-down combo boxes");
+                errors = true;
             }
         } else {
             errors = true;
-            errorLabel.setText("Date must be entered in yyyy-MM-dd format. \nTime must be entered in HH:mm:ss format");
+            errorLabel.setText("Error: Date must be entered in yyyy-MM-dd format. \n       Time must be entered in HH:mm:ss format");
         }
 
 
@@ -194,36 +196,34 @@ public class AddUpdateApptsController {
                 PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
                 myPs.executeUpdate();
                 modifiedAppt = null;
+                hideErrors();
                 backToMain(actionEvent);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
         }
     }
 
     private void hideErrors() {
-//        reset all error labels
+        errorLabel.setText("");
     }
 
     private boolean checkForSelect(ComboBox[] comboArray) {
         for (ComboBox c : comboArray) {
             if (c.getSelectionModel().isEmpty()) {
-//                set error lable
                 return false;
             }
         }
-        System.out.println("selected");
         return true;
     }
 
     private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId) {
         if (!SqlCon.verifyOverlap(start, end, custId)) {
-            errorLabel.setText("Error: Appointment time overlaps another appointment \nwith the same customer");
+            errorLabel.setText("Error: Appointment time overlaps another appointment \n       with the same customer");
             return false;
         }
         if (!Helper.verifyBusHours(startTime, endTime)) {
             errorLabel.setText("Error: Appointment time is outside of business hours" +
-                    " \nBusiness hours: (08:00:00 - 22:00:00 EST ");
+                    " \n       Business hours: (08:00:00 - 22:00:00 EST ");
             return false;
         }
         return true;
