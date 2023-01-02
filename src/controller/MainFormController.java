@@ -22,7 +22,8 @@ public class MainFormController {
     }
 
     public void initialize() {
-        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
+//        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
+//        apptAlert(alerts);
 
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -48,9 +49,10 @@ public class MainFormController {
         custUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("updatedBy"));
         custDivId.setCellValueFactory(new PropertyValueFactory<>("divId"));
 
-        apptTable.setItems(alerts);
+        apptTable.setItems(appts);
         custTable.setItems(customers);
     }
+
     public TableView<Appt> apptTable;
     public TableColumn<Appt, Integer> apptId;
     public TableColumn<Appt, String> apptTitle;
@@ -184,7 +186,6 @@ public class MainFormController {
                 apptTable.setItems(SqlCon.getApptList(view));
             }
         }
-
     }
 
     public void onAllApptView(ActionEvent actionEvent) {

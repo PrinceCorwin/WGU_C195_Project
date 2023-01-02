@@ -290,7 +290,4 @@ public abstract class SqlCon {
         }
         return id;
     }
-
-    public static void apptAlert() {
-    }
 }

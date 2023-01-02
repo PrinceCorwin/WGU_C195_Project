@@ -1,14 +1,15 @@
 package controller;
 
+import classes.Appt;
+import databaseHelp.SqlCon;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,38 +29,6 @@ public class LoginScreenController {
     public Label locationLabel;
 
     public void initialize() {
-
-//        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
-//        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:05" , f ) ;
-//        String str = ZonedDateTime.now(
-//                ZoneId.systemDefault()
-//        ).getZone().toString();
-//        System.out.println(str);
-//        ZoneId z = ZoneId.of(str) ;
-//        ZonedDateTime zdt = ldt.atZone( z );
-//        OffsetDateTime odt = ldt.atOffset( ZoneOffset.UTC );
-//        System.out.println(odt);
-//
-////        local to UTC
-//        String datesToConvert = "31-12-2018 23:37:00";
-//        String dateFormat = "dd-MM-yyyy HH:mm:ss";
-//
-//        SimpleDateFormat sdf2 = new SimpleDateFormat(dateFormat);
-//        sdf2.setTimeZone(TimeZone.getDefault());
-//        Date gmt = null;
-//
-//        SimpleDateFormat sdfOutPutToSend = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//        sdfOutPutToSend.setTimeZone(TimeZone.getTimeZone("UTC"));
-//
-//        try {
-//            gmt = sdf2.parse(datesToConvert);
-//            System.out.println("UTC FORMATTED DATE : " + sdfOutPutToSend.format(gmt));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
         Locale currentLocale = Locale.getDefault();
         String currentLocation = currentLocale.getDisplayCountry();
         String lang = currentLocale.getLanguage();
@@ -88,10 +57,26 @@ public class LoginScreenController {
     }
 
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
+        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
+        apptAlert(alerts);
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1200, 600);
         stage.setScene(scene);
         stage.show();
+    }
+    private void apptAlert(ObservableList<Appt> alerts) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        if (alerts.isEmpty()) {
+            alert.setTitle("No Appointment within 15 minutes");
+        } else {
+            alert.setTitle("Upcoming Appointments:");
+        }
+        alert.setHeaderText("hello");
+        alert.setContentText("Are you sure?");
+        Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.OK){
+//                apptTable.setItems(SqlCon.getApptList("all"));
+//            }
     }
 }
