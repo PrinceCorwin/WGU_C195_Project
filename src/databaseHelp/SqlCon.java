@@ -194,7 +194,7 @@ public abstract class SqlCon {
             ResultSet myResult = myPs.executeQuery();
             while(myResult.next()) {
                 int id = myResult.getInt("Customer_ID");
-                if (custId != id) {
+                if (custId == id) {
                     String checkStart = myResult.getString("Start");
                     String checkEnd = myResult.getString("End");
                     SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

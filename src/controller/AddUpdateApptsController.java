@@ -200,7 +200,7 @@ public class AddUpdateApptsController {
         }
         if (!Helper.verifyBusHours(startTime, endTime)) {
             errorLabel.setText("Error: Appointment time is outside of business hours" +
-                    " \n       Business hours: (08:00:00 - 22:00:00 EST ");
+                    " \n       Business hours: (08:00:00 - 22:00:00 EST)");
             return false;
         }
         return true;
