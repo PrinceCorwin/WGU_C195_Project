@@ -1,9 +1,6 @@
 package databaseHelp;
 
-import databaseHelp.Helper;
-import classes.Appt;
-import classes.Contact;
-import classes.Customer;
+import classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
@@ -121,7 +118,6 @@ public abstract class SqlCon {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return allCustomers;
     }
@@ -152,7 +148,6 @@ public abstract class SqlCon {
             myPs.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
     public static void deleteAppt(Appt deletedAppt) {
@@ -221,5 +216,70 @@ public abstract class SqlCon {
             return false;
         }
     return true;
+    }
+
+    public static ObservableList<Country> getCountryList() {
+        ObservableList<Country> allCountries = FXCollections.observableArrayList();
+
+        try {
+            String query = "SELECT * from countries";
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                String name = myResult.getString("Country");
+                int id = myResult.getInt("Country_ID");
+                Country country = new Country(name, id);
+                allCountries.add(country);
+            }
+        } catch (SQLException e) {
+        }
+        return allCountries;
+    }
+    public static ObservableList<Division> getDivisionList() {
+        ObservableList<Division> allDivisions = FXCollections.observableArrayList();
+
+        try {
+            String query = "SELECT * from first_level_divisions";
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                String name = myResult.getString("Division");
+                int id = myResult.getInt("Division_ID");
+                int countryId = myResult.getInt("Country_ID");
+                Division division = new Division(name, id, countryId);
+                allDivisions.add(division);
+            }
+        } catch (SQLException e) {
+        }
+        return allDivisions;
+    }
+
+    public static int getCountryIdFromName(String name) {
+        int id = 0;
+
+        try {
+            String query = String.format("SELECT * from countries WHERE Country = '%s'", name);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                id = myResult.getInt("Country_ID");
+            }
+        } catch (SQLException e) {
+        }
+        return id;
+    }
+
+    public static int getDivIdFromName(String name) {
+        int id = 0;
+        try {
+            String query = String.format("SELECT * from first_level_divisions WHERE Division = '%s'", name);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                id = myResult.getInt("Division_ID");
+            }
+        } catch (SQLException e) {
+        }
+        return id;
     }
 }

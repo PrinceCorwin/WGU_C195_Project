@@ -15,16 +15,16 @@
          </font>
       </Label>
    </AnchorPane>
-   <TextField fx:id="custIdField" disable="true" layoutX="114.0" layoutY="118.0" prefHeight="26.0" prefWidth="168.0" promptText="(AUTO GEN)" />
-   <TextField fx:id="custNameField" layoutX="80.0" layoutY="158.0" promptText="NAME" />
-   <TextField fx:id="custPhoneField" layoutX="85.0" layoutY="270.0" promptText="PHONE NUMBER" />
+   <TextField fx:id="custIdField" disable="true" layoutX="114.0" layoutY="118.0" prefHeight="26.0" prefWidth="86.0" promptText="(AUTO GEN)" />
+   <TextField fx:id="custNameField" layoutX="89.0" layoutY="157.0" prefHeight="26.0" prefWidth="278.0" promptText="NAME" />
+   <TextField fx:id="custPhoneField" layoutX="114.0" layoutY="269.0" prefHeight="26.0" prefWidth="176.0" promptText="PHONE NUMBER" />
    <TextField fx:id="custAddressField" layoutX="90.0" layoutY="195.0" prefHeight="26.0" prefWidth="277.0" promptText="ADDRESS" />
-   <TextField fx:id="custZipField" layoutX="114.0" layoutY="233.0" promptText="POSTAL CODE" />
-   <ComboBox fx:id="custCountryBox" layoutX="413.0" layoutY="158.0" prefWidth="150.0" promptText="COUNTRY" />
-   <ComboBox fx:id="custStateBox" layoutX="413.0" layoutY="195.0" prefWidth="150.0" promptText="STATE / PROVINCE" />
+   <TextField fx:id="custZipField" layoutX="114.0" layoutY="232.0" prefHeight="26.0" prefWidth="176.0" promptText="POSTAL CODE" />
+   <ComboBox fx:id="custCountryBox" layoutX="413.0" layoutY="158.0" onAction="#setDivisions" prefWidth="150.0" promptText="COUNTRY" />
+   <ComboBox fx:id="custStateBox" layoutX="413.0" layoutY="195.0" onAction="#setDivId" prefWidth="150.0" promptText="STATE / PROVINCE" />
    <Button layoutX="510.0" layoutY="394.0" mnemonicParsing="false" onAction="#onCustCancel" text="CANCEL" />
    <Button layoutX="425.0" layoutY="394.0" mnemonicParsing="false" onAction="#onCustSave" text="SAVE" />
-   <Label fx:id="custErrorLabel" layoutX="38.0" layoutY="320.0" text="ERROR:" textFill="RED" />
+   <Label fx:id="custErrorLabel" layoutX="38.0" layoutY="320.0" text="Select a COUNTRY to populate STATE / PROVINCE list" textFill="RED" />
    <Label layoutX="39.0" layoutY="162.0" text="Name:" />
    <Label layoutX="39.0" layoutY="200.0" text="Address:" />
    <Label layoutX="39.0" layoutY="237.0" text="Postal Code:" />

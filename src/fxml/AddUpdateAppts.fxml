@@ -28,9 +28,9 @@
       <Label layoutX="40.0" layoutY="96.0" text="Time:" />
       <Label layoutX="365.0" layoutY="96.0" text="Time:" />
    </AnchorPane>
-   <TextField fx:id="apptIdField" disable="true" layoutX="93.0" layoutY="251.0" promptText="AUTO GEN" />
-   <TextField fx:id="apptTitleField" layoutX="79.0" layoutY="289.0" promptText="ex Daily Crew Meeting" />
-   <TextField fx:id="apptLocField" layoutX="106.0" layoutY="329.0" promptText="ex Conference Room" />
+   <TextField fx:id="apptIdField" disable="true" layoutX="115.0" layoutY="251.0" prefHeight="26.0" prefWidth="89.0" promptText="AUTO GEN" />
+   <TextField fx:id="apptTitleField" layoutX="115.0" layoutY="289.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Daily Crew Meeting" />
+   <TextField fx:id="apptLocField" layoutX="115.0" layoutY="329.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Conference Room" />
    <TextField fx:id="apptTypeField" layoutX="409.0" layoutY="251.0" promptText="ex Planning Session" />
    <ComboBox fx:id="apptCustIdField" layoutX="408.0" layoutY="289.0" prefWidth="150.0" promptText="CUSTOMER ID" />
    <ComboBox fx:id="apptUserIdField" layoutX="408.0" layoutY="329.0" prefWidth="150.0" promptText="USER ID" />
@@ -44,5 +44,6 @@
    <Label layoutX="43.0" layoutY="293.0" text="Title:" />
    <Label layoutX="43.0" layoutY="373.0" text="Description:" />
    <Label layoutX="43.0" layoutY="333.0" text="Location:" />
-   <TextArea fx:id="apptDescField" layoutX="115.0" layoutY="369.0" prefHeight="68.0" prefWidth="200.0" promptText="ex Plan the daily work assignments" />
+   <TextArea fx:id="apptDescField" layoutX="115.0" layoutY="369.0" prefHeight="68.0" prefWidth="174.0" promptText="ex Plan the daily work assignments" />
+   <Label layoutX="368.0" layoutY="255.0" text="Type:" />
 </AnchorPane>
