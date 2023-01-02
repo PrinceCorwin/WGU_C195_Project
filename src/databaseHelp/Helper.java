@@ -133,14 +133,9 @@ public class Helper {
         }
         return true;
     }
-//    public static int getDayOfWeek() {
-//        Date date=new Date();
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(date);
-//        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-//        System.out.println("Day of week in number:"+dayOfWeek);
-//        String dayWeekText = new SimpleDateFormat("EEEE").format(date);
-//        System.out.println("Day of week in text:"+dayWeekText);
-//        return dayOfWeek;
-//    }
+    public static String getCurrentUtcTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return localToUTC(formatter.format(date));
+    }
 }

@@ -158,17 +158,19 @@ public class AddUpdateApptsController {
 
 
         if(!errors) {
+            String lastUpdated = Helper.getCurrentUtcTime();
+            lastUpdated = Helper.localToUTC(lastUpdated);
             try {
                 String custQuery;
                 if (modifiedAppt == null) {
                     custQuery = String.format("INSERT INTO appointments VALUES(%d, '%s', '%s', '%s', '%s'," +
-                                    " '%s', '%s', NOW(), '%s', NOW(), '%s', %d, %d, %d)",
-                            id, title, desc, loc, type, start, end, userName, userName, custId, userId, contactId);
+                                    " '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, %d)",
+                            id, title, desc, loc, type, start, end, lastUpdated, userName, lastUpdated, userName, custId, userId, contactId);
                 } else {
                     custQuery = String.format("UPDATE appointments SET Title = '%s', Description = '%s', Location = '%s', Type = '%s'," +
-                            "Start ='%s', End = '%s', Last_Update = NOW()," +
+                            "Start ='%s', End = '%s', Last_Update = '%s'," +
                             "Last_Updated_By = '%s', Customer_ID = %d, User_ID = %d, Contact_ID = %d WHERE Appointment_ID = %d",
-                            title, desc, loc, type, start, end, userName, custId, userId, contactId, id);
+                            title, desc, loc, type, start, end, lastUpdated, userName, custId, userId, contactId, id);
                 }
                 PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
                 myPs.executeUpdate();

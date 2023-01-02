@@ -56,7 +56,10 @@ public abstract class SqlCon {
             } else if (Objects.equals(view, "month")) {
                 query = "SELECT * FROM appointments WHERE MONTH(Start) = MONTH(NOW())";
             } else if (Objects.equals(view, "alert")) {
-                query = "SELECT * FROM appointments WHERE Start BETWEEN (NOW() - INTERVAL 15 MINUTE) AND (NOW() + INTERVAL 15 MINUTE)";
+                String currentUtcTime = Helper.getCurrentUtcTime();
+                System.out.println(currentUtcTime);
+                query = String.format("SELECT * FROM appointments WHERE Start BETWEEN " +
+                        "('%s' - INTERVAL 15 MINUTE) AND ('%s' + INTERVAL 15 MINUTE)", currentUtcTime, currentUtcTime);
             }
             PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
@@ -290,4 +293,6 @@ public abstract class SqlCon {
         }
         return id;
     }
+
+
 }
