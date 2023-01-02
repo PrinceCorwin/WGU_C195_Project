@@ -57,23 +57,29 @@ public class LoginScreenController {
     }
 
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
-        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
-        apptAlert(alerts);
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1200, 600);
         stage.setScene(scene);
         stage.show();
+        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
+        apptAlert(alerts);
     }
     private void apptAlert(ObservableList<Appt> alerts) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        String appts = "";
+        alert.setTitle("Upcoming Appointments");
         if (alerts.isEmpty()) {
-            alert.setTitle("No Appointment within 15 minutes");
+            alert.setHeaderText("No Appointment within 15 minutes");
         } else {
-            alert.setTitle("Upcoming Appointments:");
+            alert.setHeaderText("Appointments within 15 minutes:");
+            for (Appt a : alerts
+                 ) {
+                String addedStr = "Appointment ID: " + a.getId() + "  Date/Time: " + a.getStart();
+                appts = appts + "\n" + addedStr;
+            }
         }
-        alert.setHeaderText("hello");
-        alert.setContentText("Are you sure?");
+        alert.setContentText(appts);
         Optional<ButtonType> result = alert.showAndWait();
 //            if (result.get() == ButtonType.OK){
 //                apptTable.setItems(SqlCon.getApptList("all"));
