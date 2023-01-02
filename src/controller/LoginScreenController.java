@@ -80,9 +80,6 @@ public class LoginScreenController {
             }
         }
         alert.setContentText(appts);
-        Optional<ButtonType> result = alert.showAndWait();
-//            if (result.get() == ButtonType.OK){
-//                apptTable.setItems(SqlCon.getApptList("all"));
-//            }
+        alert.showAndWait();
     }
 }

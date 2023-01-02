@@ -22,9 +22,6 @@ public class MainFormController {
     }
 
     public void initialize() {
-//        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
-//        apptAlert(alerts);
-
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));

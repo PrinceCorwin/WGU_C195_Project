@@ -159,7 +159,6 @@ public class AddUpdateApptsController {
 
         if(!errors) {
             String lastUpdated = Helper.getCurrentUtcTime();
-            lastUpdated = Helper.localToUTC(lastUpdated);
             try {
                 String custQuery;
                 if (modifiedAppt == null) {

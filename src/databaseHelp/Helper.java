@@ -109,33 +109,12 @@ public class Helper {
             return false;
         }
     }
-    public static int getUniqueId() {
-        int count = 0;
-        ObservableList<Appt> appts = SqlCon.getApptList("all");
-        boolean unique;
-        do {
-            unique = true;
-            count++;
-            for (Appt a : appts) {
-                if (a.getId() == count) {
-                    unique = false;
-                }
-            }
-        } while (!unique);
-        return count;
-    }
-    public static boolean checkForInt(String str) {
-        try {
-            Integer.parseInt(str);
-        }
-        catch(NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
+
     public static String getCurrentUtcTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
+        System.out.println(date);
+        System.out.println(localToUTC(formatter.format(date)));
         return localToUTC(formatter.format(date));
     }
 }

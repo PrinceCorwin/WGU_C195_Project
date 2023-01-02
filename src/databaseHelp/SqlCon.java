@@ -57,7 +57,6 @@ public abstract class SqlCon {
                 query = "SELECT * FROM appointments WHERE MONTH(Start) = MONTH(NOW())";
             } else if (Objects.equals(view, "alert")) {
                 String currentUtcTime = Helper.getCurrentUtcTime();
-                System.out.println(currentUtcTime);
                 query = String.format("SELECT * FROM appointments WHERE Start BETWEEN " +
                         "('%s' - INTERVAL 15 MINUTE) AND ('%s' + INTERVAL 15 MINUTE)", currentUtcTime, currentUtcTime);
             }
