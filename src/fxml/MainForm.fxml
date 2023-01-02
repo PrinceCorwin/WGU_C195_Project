@@ -35,9 +35,9 @@
                <toggleGroup>
                   <ToggleGroup fx:id="radioToggle" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="WEEK" toggleGroup="$radioToggle" />
+            <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="THIS WEEK" toggleGroup="$radioToggle" />
             <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
-            <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="MONTH" toggleGroup="$radioToggle" />
+            <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="THIS MONTH" toggleGroup="$radioToggle" />
             <Button layoutX="829.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" text="EXIT" />
             </AnchorPane>
         </Tab>

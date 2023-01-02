@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -110,7 +111,7 @@ public class Helper {
     }
     public static int getUniqueId() {
         int count = 0;
-        ObservableList<Appt> appts = SqlCon.getApptList();
+        ObservableList<Appt> appts = SqlCon.getApptList("all");
         boolean unique;
         do {
             unique = true;
@@ -132,4 +133,14 @@ public class Helper {
         }
         return true;
     }
+//    public static int getDayOfWeek() {
+//        Date date=new Date();
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(date);
+//        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+//        System.out.println("Day of week in number:"+dayOfWeek);
+//        String dayWeekText = new SimpleDateFormat("EEEE").format(date);
+//        System.out.println("Day of week in text:"+dayWeekText);
+//        return dayOfWeek;
+//    }
 }

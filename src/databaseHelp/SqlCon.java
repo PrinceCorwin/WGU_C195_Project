@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public abstract class SqlCon {
@@ -45,11 +46,18 @@ public abstract class SqlCon {
             System.out.println("Error:" + e.getMessage());
         }
     }
-    public static ObservableList<Appt> getApptList() {
+    public static ObservableList<Appt> getApptList(String view) {
         ObservableList<Appt> allAppts = FXCollections.observableArrayList();
 
         try {
             String query = "SELECT * from appointments";
+            if (Objects.equals(view, "week"))  {
+                query = "SELECT * FROM appointments WHERE WEEK(Start) = WEEK(NOW())";
+            } else if (Objects.equals(view, "month")) {
+                query = "SELECT * FROM appointments WHERE MONTH(Start) = MONTH(NOW())";
+            } else if (Objects.equals(view, "alert")) {
+                query = "SELECT * FROM appointments WHERE Start BETWEEN (NOW() - INTERVAL 15 MINUTE) AND (NOW() + INTERVAL 15 MINUTE)";
+            }
             PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
 
@@ -281,5 +289,8 @@ public abstract class SqlCon {
         } catch (SQLException e) {
         }
         return id;
+    }
+
+    public static void apptAlert() {
     }
 }

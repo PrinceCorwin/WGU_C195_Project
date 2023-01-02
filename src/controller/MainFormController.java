@@ -22,29 +22,7 @@ public class MainFormController {
     }
 
     public void initialize() {
-//        System.out.println(Instant.now().toString());
-//        System.out.println("2022-12-30 13:15:32");
-//        System.out.println(LocalDateTime.parse("2022-12-30 13:15:32", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-//                .atOffset(ZoneOffset.UTC)
-//                .toString());
-//        DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd-MM-uuuu HH:mm:ss" ) ;
-//        LocalDateTime ldt = LocalDateTime.parse( "31-12-2018 23:37:00" , f ) ;
-//        ZoneId z = ZoneId.of( "UTC" ) ;
-//        ZonedDateTime zdt = ldt.atZone( z ) ;
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date());
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//
-////Here you say to java the initial timezone. This is the secret
-//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-////Will print in UTC
-//        System.out.println("UTC " + sdf.format(calendar.getTime()));
-//
-////Here you set to your timezone
-//        sdf.setTimeZone(TimeZone.getDefault());
-////Will print on your default Timezone
-//        System.out.println("CST " + sdf.format(calendar.getTime()));
+        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
 
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -70,7 +48,7 @@ public class MainFormController {
         custUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("updatedBy"));
         custDivId.setCellValueFactory(new PropertyValueFactory<>("divId"));
 
-        apptTable.setItems(appts);
+        apptTable.setItems(alerts);
         custTable.setItems(customers);
     }
     public TableView<Appt> apptTable;
@@ -104,7 +82,7 @@ public class MainFormController {
     public RadioButton weekApptView;
     public RadioButton monthApptView;
     private ObservableList<Customer> customers = SqlCon.getCustomerList();
-    private ObservableList<Appt> appts = SqlCon.getApptList();
+    private ObservableList<Appt> appts = SqlCon.getApptList("all");
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -134,17 +112,32 @@ public class MainFormController {
     }
 
     public void onDeleteCust(ActionEvent actionEvent) {
+        boolean error = false;
         boolean nullPointer = isCustSelected();
         if (!nullPointer) {
             Customer deletedCust = custTable.getSelectionModel().getSelectedItem();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm Delete");
-            alert.setHeaderText("Delete " + deletedCust.getName());
-            alert.setContentText("Are you sure?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                SqlCon.deleteCust(deletedCust);
-                custTable.setItems(SqlCon.getCustomerList());
+            int deletedId = deletedCust.getId();
+            ObservableList<Appt> allAppts = SqlCon.getApptList("all");
+            for (Appt a : allAppts) {
+                if (a.getCustId() == deletedId) {
+                    selectCustError.setVisible(true);
+                    selectCustError.setText(String.format("Delete all %s\'s Appointments before deleting", deletedCust.getName()));
+                    System.out.println("error");
+                    error = true;
+                    break;
+                }
+            }
+
+            if (!error) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm Delete");
+                alert.setHeaderText("Delete " + deletedCust.getName());
+                alert.setContentText("Are you sure?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    SqlCon.deleteCust(deletedCust);
+                    custTable.setItems(SqlCon.getCustomerList());
+                }
             }
         }
     }
@@ -171,7 +164,7 @@ public class MainFormController {
         }
     }
 
-    public void onDeleteAppt(ActionEvent actionEvent) {
+    public void onDeleteAppt() {
        boolean nullPointer = isApptSelected();
         if (!nullPointer) {
             Appt deletedAppt = apptTable.getSelectionModel().getSelectedItem();
@@ -182,7 +175,13 @@ public class MainFormController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 SqlCon.deleteAppt(deletedAppt);
-                apptTable.setItems(SqlCon.getApptList());
+                String view = "all";
+                if (weekApptView.isSelected()) {
+                    view = "week";
+                } else if (monthApptView.isSelected()) {
+                    view = "month";
+                }
+                apptTable.setItems(SqlCon.getApptList(view));
             }
         }
 
@@ -193,15 +192,14 @@ public class MainFormController {
     }
 
     public void onWeekApptView(ActionEvent actionEvent) {
-        for(Appt appt : appts) {
+        ObservableList<Appt> weekly = SqlCon.getApptList("week");
+        apptTable.setItems(weekly);
 
-        }
     }
 
     public void onMonthApptView(ActionEvent actionEvent) {
-        for(Appt appt : appts) {
-
-        }
+        ObservableList<Appt> monthly = SqlCon.getApptList("month");
+        apptTable.setItems(monthly);
     }
     public boolean isApptSelected() {
         selectApptError.setVisible(false);

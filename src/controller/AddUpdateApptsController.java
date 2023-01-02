@@ -46,6 +46,7 @@ public class AddUpdateApptsController {
     public Label apptFormTitle;
 
     public void initialize() {
+
         ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         ObservableList<Integer> custIds = FXCollections.observableArrayList();
@@ -214,7 +215,7 @@ public class AddUpdateApptsController {
     }
     public static int getUniqueId() {
         int count = 0;
-        ObservableList<Appt> appts = SqlCon.getApptList();
+        ObservableList<Appt> appts = SqlCon.getApptList("all");
         boolean unique;
         do {
             unique = true;
