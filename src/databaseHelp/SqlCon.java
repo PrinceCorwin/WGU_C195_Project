@@ -267,7 +267,6 @@ public abstract class SqlCon {
 
     public static int getCountryIdFromName(String name) {
         int id = 0;
-
         try {
             String query = String.format("SELECT * from countries WHERE Country = '%s'", name);
             PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
@@ -333,5 +332,28 @@ public abstract class SqlCon {
             }
         }
         return types;
+    }
+
+    public static ObservableList<Appt> getApptsByContact(int contactId) {
+        ObservableList<Appt> appts = FXCollections.observableArrayList();
+        try {
+            String query = String.format("SELECT * from appointments WHERE Contact_ID = %d", contactId);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                int apptId = myResult.getInt("Appointment_ID");
+                String title = myResult.getString("Title");
+                String type = myResult.getString("Type");
+                String desc = myResult.getString("Description");
+                String start = myResult.getString("Start");
+                String end = myResult.getString("End");
+                int custId = myResult.getInt("Customer_ID");
+
+                Appt appt = new Appt(apptId, title, start, desc, contactId, "", type, end, custId, 0, "", "", "", "");
+                appts.add(appt);
+            }
+        } catch (SQLException e) {
+        }
+        return appts;
     }
 }

@@ -1,7 +1,6 @@
 package controller;
 
-import classes.Appt;
-import classes.Report;
+import classes.*;
 import databaseHelp.SqlCon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -56,15 +56,23 @@ public class ReportsController {
     public TableColumn<Appt, String> apptStart;
     public TableColumn<Appt, String> apptEnd;
     public TableColumn<Appt, Integer> apptCustId;
+    public ComboBox<Integer> chooseContactBtn;
 
     public void initialize() throws IOException {
-//        apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-//        apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
-//        apptDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-//        apptType.setCellValueFactory(new PropertyValueFactory<>("type"));
-//        apptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
-//        apptCustId.setCellValueFactory(new PropertyValueFactory<>("custId"));
+        ObservableList<Contact> allContacts = SqlCon.getContactList();
+        ObservableList<Integer> contactIds = FXCollections.observableArrayList();
+        for(Contact c : allContacts) {
+            contactIds.add(c.getId());
+            }
+        chooseContactBtn.setItems(contactIds);
+
+        apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        apptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        apptDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        apptType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        apptCustId.setCellValueFactory(new PropertyValueFactory<>("custId"));
 
         typeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeJan.setCellValueFactory(new PropertyValueFactory<>("jan"));
@@ -138,5 +146,9 @@ public class ReportsController {
     }
 
     public void setSchedule(ActionEvent actionEvent) {
+        int contactId = chooseContactBtn.getValue();
+        ObservableList<Appt> appts = SqlCon.getApptsByContact(contactId);
+        contactTable.setItems(appts);
+
     }
 }
