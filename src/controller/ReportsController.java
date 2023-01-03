@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReportsController {
@@ -94,7 +95,6 @@ public class ReportsController {
         userDec.setCellValueFactory(new PropertyValueFactory<>("dec"));
         getReports();
 
-        typeTable.setItems(typeReport);
     }
 
     private void getReports() throws IOException {
@@ -109,13 +109,24 @@ public class ReportsController {
             userReport.add(report);
         }
         userTable.setItems(userReport);
-//        get types and loop through them as above
+        for (String type : allTypes) {
+            int jan = 0, feb = 0, mar = 0, apr = 0, may = 0, jun = 0, jul = 0, aug = 0, sep = 0, oct = 0, nov = 0, dec = 0;
+            int[] months = {jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
+            for (int i = 1; i<13; i++) {
+                int num = SqlCon.getApptsByType(type, i);
+                months[i-1] = num;
+            }
+            Report report = new Report(months[0], months[1], months[2], months[3], months[4], months[5], months[6], months[7], months[8], months[9], months[10], months[11], 0, type);
+            typeReport.add(report);
+        }
+        typeTable.setItems(typeReport);
     }
 
     private ObservableList<Appt> appts = SqlCon.getApptList("all");
     private ObservableList<Report> typeReport = FXCollections.observableArrayList();
     private ObservableList<Report> userReport = FXCollections.observableArrayList();
     private ObservableList<Integer> userIds = SqlCon.getUserIds();
+    private ArrayList<String> allTypes = SqlCon.getAllTypes();
 
 
     public void onHome(ActionEvent actionEvent) throws IOException {

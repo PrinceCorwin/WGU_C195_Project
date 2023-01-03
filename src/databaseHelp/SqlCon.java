@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -306,5 +307,31 @@ public abstract class SqlCon {
         } catch (SQLException e) {
         }
         return count;
+    }
+
+    public static int getApptsByType(String type, int i) {
+        int count = 0;
+        try {
+            String query = String.format("SELECT * from appointments WHERE Type = '%s' AND MONTH(Start) = %d", type, i);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+        }
+        return count;
+    }
+
+    public static ArrayList<String> getAllTypes() {
+        ArrayList<String> types = new ArrayList<>();
+        ObservableList<Appt> allAppts = getApptList("all");
+        for (Appt a : allAppts) {
+            String thisType = a.getType();
+            if (!types.contains(thisType)) {
+                types.add(thisType);
+            }
+        }
+        return types;
     }
 }
