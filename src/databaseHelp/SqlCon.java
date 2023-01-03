@@ -356,4 +356,8 @@ public abstract class SqlCon {
         }
         return appts;
     }
+
+    public static boolean validateLogin(String userName, String password) {
+        return true;
+    }
 }

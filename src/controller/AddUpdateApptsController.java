@@ -52,12 +52,8 @@ public class AddUpdateApptsController {
         ObservableList<Integer> custIds = FXCollections.observableArrayList();
         ObservableList<Integer> allUserIds = SqlCon.getUserIds();
 
-        for(Contact c : allContacts) {
-            contactNames.add(c.getName());
-        }
-        for(Customer c : allCustomers) {
-            custIds.add(c.getId());
-        }
+        allContacts.forEach( (c) -> {contactNames.add(c.getName());});
+        allCustomers.forEach( (c) -> {custIds.add(c.getId());});
 
         apptContactField.setItems(contactNames);
         apptCustIdField.setItems(custIds);

@@ -1,6 +1,7 @@
 package controller;
 
 import classes.Appt;
+import databaseHelp.Helper;
 import databaseHelp.SqlCon;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -57,6 +59,22 @@ public class LoginScreenController {
     }
 
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
+        String userName = userNameField.getText();
+        String password = passwordField.getText();
+        String currentDate = Helper.getCurrentUtcTime();
+        String success = "Successful";
+        String log = String.format("\n%s login attempt by '%s', on %s", success, userName, currentDate);
+        boolean validLogin = SqlCon.validateLogin(userName, password);
+        validLogin = true ? success = "Successful" : "failed";
+        try {
+            FileWriter loginTracker = new FileWriter("login_activity.txt", true);
+            loginTracker.write(log);
+            loginTracker.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1200, 600);

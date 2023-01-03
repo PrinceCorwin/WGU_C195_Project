@@ -49,9 +49,7 @@ public class AddUpdateCustomerController {
 
         } else {
             custIdField.setText(String.valueOf(getUniqueId()));
-            for(Country c : allCountries) {
-                countryNames.add(c.getName());
-            }
+            allCountries.forEach( (c) -> {countryNames.add(c.getName());});
             custCountryBox.setItems(countryNames);
         }
     }
