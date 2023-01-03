@@ -227,4 +227,12 @@ public class MainFormController {
         }
         return nullPointer;
     }
+
+    public void onReports(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Reports.fxml")));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1200, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

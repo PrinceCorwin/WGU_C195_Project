@@ -28,9 +28,9 @@
                         <TableColumn fx:id="apptUserId" prefWidth="110.0" text="User_ID" />
                     </columns>
                 </TableView>
-            <Button layoutX="347.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" text="DELETE" />
-            <Button layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" text="UPDATE APPT" />
-          <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" text="ADD APPT" />
+            <Button fx:id="deleteApptBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" text="DELETE" />
+            <Button fx:id="updateApptBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" text="UPDATE APPT" />
+          <Button fx:id="addApptBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" text="ADD APPT" />
             <RadioButton fx:id="allApptView" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onAllApptView" selected="true" text="ALL">
                <toggleGroup>
                   <ToggleGroup fx:id="radioToggle" />
@@ -38,7 +38,8 @@
             <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="THIS WEEK" toggleGroup="$radioToggle" />
             <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
             <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="THIS MONTH" toggleGroup="$radioToggle" />
-            <Button layoutX="829.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" text="EXIT" />
+            <Button fx:id="exitBtn" layoutX="829.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" text="EXIT" />
+            <Button fx:id="reportsBtn" layoutX="557.0" layoutY="472.0" mnemonicParsing="false" onAction="#onReports" text="REPORTS" />
             </AnchorPane>
         </Tab>
         <Tab text="Customer Directory">
@@ -59,10 +60,10 @@
                         <TableColumn fx:id="custDivId" prefWidth="90.0" text="Division_ID" />
                     </columns>
                 </TableView>
-                <Button layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" text="ADD CUST" />
-                <Button layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" text="UPDATE CUST" />
+                <Button fx:id="addCustBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" text="ADD CUST" />
+                <Button fx:id="updateCustBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" text="UPDATE CUST" />
                 <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
-                <Button layoutX="347.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" text="DELETE" />
+                <Button fx:id="deleteCutsBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" text="DELETE" />
             </AnchorPane>
         </Tab>
     </TabPane>

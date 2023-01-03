@@ -294,4 +294,17 @@ public abstract class SqlCon {
     }
 
 
+    public static int getNumAppts(Integer id, int i) {
+        int count = 0;
+        try {
+            String query = String.format("SELECT * from appointments WHERE User_ID = %d AND MONTH(Start) = %d", id, i);
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+        }
+        return count;
+    }
 }

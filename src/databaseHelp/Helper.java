@@ -2,12 +2,20 @@ package databaseHelp;
 
 import classes.Appt;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class Helper {
@@ -113,8 +121,6 @@ public class Helper {
     public static String getCurrentUtcTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        System.out.println(date);
-        System.out.println(localToUTC(formatter.format(date)));
         return localToUTC(formatter.format(date));
     }
 }
