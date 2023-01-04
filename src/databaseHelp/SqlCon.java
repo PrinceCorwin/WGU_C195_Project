@@ -1,9 +1,9 @@
 package databaseHelp;
 
 import classes.*;
-import controller.ReportsController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,11 +21,15 @@ public abstract class SqlCon {
     private static final String appUser = "sqlUser";
     public static Connection appConn;
 
+//    static DateFormatInterface updateQuery = (query) -> {
+//        PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+//        myPs.executeUpdate();
+//    };
+
     public static void openConnection()
     {
         try {
             Class.forName(sqlDriver);
-            // Password
             String password = "Passw0rd!";
             appConn = DriverManager.getConnection(sqlIp, appUser, password);
             System.out.println("You are connected");
@@ -156,8 +160,8 @@ public abstract class SqlCon {
         try {
             int id = deletedCust.getId();
             String custQuery = String.format("DELETE FROM customers WHERE Customer_ID = %d", id);
-            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
-            myPs.executeUpdate();
+        PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
+        myPs.executeUpdate();
 
         } catch (SQLException e) {
         }
@@ -166,8 +170,8 @@ public abstract class SqlCon {
         try {
             int id = deletedAppt.getId();
             String custQuery = String.format("DELETE FROM appointments WHERE Appointment_ID = %d", id);
-            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
-            myPs.executeUpdate();
+        PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
+        myPs.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

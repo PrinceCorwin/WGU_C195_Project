@@ -1,32 +1,26 @@
 package databaseHelp;
 
-import classes.Appt;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import Interfaces.DateFormatInterface;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 import java.util.TimeZone;
 
 public class Helper {
 
+    static DateFormatInterface fullFormat = () -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static DateFormatInterface yearFormat = () -> new SimpleDateFormat("yyyy-MM-dd");
+    static DateFormatInterface timeFormat = () -> new SimpleDateFormat("HH:mm:ss");
+
     public static String localToUTC(String time) {
-        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat localFormat = fullFormat.dateFormat();
         localFormat.setTimeZone(TimeZone.getDefault());
         Date localTime = null;
 
 
-        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat utcFormat = fullFormat.dateFormat();
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         String utcTime = "";
@@ -39,11 +33,11 @@ public class Helper {
         return utcTime;
     }
     public static String utcToLocal(String currentTime) {
-        SimpleDateFormat localFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat localFormat = fullFormat.dateFormat();
         localFormat.setTimeZone(TimeZone.getDefault());
         Date utcTime = null;
 
-        SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat utcFormat = fullFormat.dateFormat();
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         String localTime = "";
@@ -57,14 +51,14 @@ public class Helper {
     }
 
     public static boolean verifyBusHours(String startTime, String endTime) {
-        SimpleDateFormat localFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat localFormat = timeFormat.dateFormat();
         localFormat.setTimeZone(TimeZone.getDefault());
         Date localStartTime;
         Date localEndTime;
         Date estStartTimeDate;
         Date estEndTimeDate;
 
-        SimpleDateFormat estFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat estFormat = timeFormat.dateFormat();
         estFormat.setTimeZone(TimeZone.getTimeZone("EST"));
 
         String estStartTime = "";
@@ -95,7 +89,7 @@ public class Helper {
             return false;
         }
         try {
-            DateFormat checkFormat = new SimpleDateFormat("HH:mm:ss");
+            DateFormat checkFormat = timeFormat.dateFormat();
             checkFormat.setLenient(false);
             checkFormat.parse(time);
             return true;
@@ -109,7 +103,7 @@ public class Helper {
             return false;
         }
         try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat df = yearFormat.dateFormat();
             df.setLenient(false);
             df.parse(date);
             return true;
@@ -119,7 +113,7 @@ public class Helper {
     }
 
     public static String getCurrentUtcTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = fullFormat.dateFormat();
         Date date = new Date();
         return localToUTC(formatter.format(date));
     }

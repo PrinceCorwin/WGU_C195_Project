@@ -1,5 +1,6 @@
 package controller;
 
+import Interfaces.SetStageInterface;
 import classes.Appt;
 import classes.Customer;
 import databaseHelp.SqlCon;
@@ -17,9 +18,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class MainFormController {
-    public void onExit() {
-        Platform.exit();
-    }
 
     public void initialize() {
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -82,12 +80,16 @@ public class MainFormController {
     public RadioButton monthApptView;
     private ObservableList<Customer> customers = SqlCon.getCustomerList();
     private ObservableList<Appt> appts = SqlCon.getApptList("all");
-    public void onAddCust(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
+
+    SetStageInterface basicStage = (actionEvent, path, width, height) -> {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 450);
+        Scene scene = new Scene(root, width, height);
         stage.setScene(scene);
         stage.show();
+    };
+    public void onAddCust(ActionEvent actionEvent) throws IOException {
+        basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 400);
     }
     /**
      * Upon button click, scene is replaced by the addPart.fxml scene and the selected part is stored in the
@@ -101,11 +103,7 @@ public class MainFormController {
         if (!nullPointer) {
             Customer customer = custTable.getSelectionModel().getSelectedItem();
             AddUpdateCustomerController.setModifiedCust(customer);
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateCustomer.fxml")));
-            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 600, 450);
-            stage.setScene(scene);
-            stage.show();
+            basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 450);
         }
 
     }
@@ -142,11 +140,7 @@ public class MainFormController {
     }
 
     public void onAddAppt(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 500);
-        stage.setScene(scene);
-        stage.show();
+        basicStage.setStage(actionEvent, "/fxml/AddUpdateAppts.fxml", 600, 500);
     }
 
     public void onUpdateAppt(ActionEvent actionEvent) throws IOException {
@@ -155,11 +149,7 @@ public class MainFormController {
         if (!nullPointer) {
             Appt appt = apptTable.getSelectionModel().getSelectedItem();
             AddUpdateApptsController.setModifiedAppt(appt);
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AddUpdateAppts.fxml")));
-            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 600, 500);
-            stage.setScene(scene);
-            stage.show();
+            basicStage.setStage(actionEvent, "/fxml/AddUpdateAppts.fxml", 600, 500);
         }
     }
 
@@ -229,10 +219,10 @@ public class MainFormController {
     }
 
     public void onReports(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Reports.fxml")));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 600);
-        stage.setScene(scene);
-        stage.show();
+        basicStage.setStage(actionEvent, "/fxml/Reports.fxml", 1200, 600);
+
+    }
+    public void onExit() {
+        Platform.exit();
     }
 }
