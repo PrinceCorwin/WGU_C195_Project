@@ -38,8 +38,8 @@
             <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="THIS WEEK" toggleGroup="$radioToggle" />
             <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
             <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="THIS MONTH" toggleGroup="$radioToggle" />
-            <Button fx:id="exitBtn" layoutX="829.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" text="EXIT" />
-            <Button fx:id="reportsBtn" layoutX="557.0" layoutY="472.0" mnemonicParsing="false" onAction="#onReports" text="REPORTS" />
+            <Button fx:id="exitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" text="EXIT" />
+            <Button fx:id="reportsBtn" layoutX="17.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" text="REPORTS" />
             </AnchorPane>
         </Tab>
         <Tab text="Customer Directory">

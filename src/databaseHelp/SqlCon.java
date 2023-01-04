@@ -1,6 +1,7 @@
 package databaseHelp;
 
 import classes.*;
+import controller.ReportsController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
@@ -358,6 +359,21 @@ public abstract class SqlCon {
     }
 
     public static boolean validateLogin(String userName, String password) {
-        return true;
+        try {
+            String query = "SELECT * from users";
+            PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
+            ResultSet myResult = myPs.executeQuery();
+            while(myResult.next()) {
+                String name = myResult.getString("User_Name");
+                if (Objects.equals(name, userName) && Objects.equals(password, myResult.getString("Password"))) {
+                    User.setId(myResult.getInt("User_ID"));
+                    User.setUserName(name);
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

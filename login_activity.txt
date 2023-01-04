@@ -1,4 +1,1 @@
 USER LOGIN ACTIVITY TRACKING LOG
-'Successful' login attempt by '', on '2023-01-03 21:06:49'
-Successful login attempt by '', on '2023-01-03 21:07:35'
-Successful login attempt by 'admin', on 2023-01-03 21:08:40

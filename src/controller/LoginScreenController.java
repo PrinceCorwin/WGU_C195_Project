@@ -59,13 +59,14 @@ public class LoginScreenController {
     }
 
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
+        loginError.setVisible(false);
         String userName = userNameField.getText();
         String password = passwordField.getText();
-        String currentDate = Helper.getCurrentUtcTime();
-        String success = "Successful";
-        String log = String.format("\n%s login attempt by '%s', on %s", success, userName, currentDate);
         boolean validLogin = SqlCon.validateLogin(userName, password);
-        validLogin = true ? success = "Successful" : "failed";
+        String currentDate = Helper.getCurrentUtcTime();
+        String success = (validLogin) ? "Successful" : "failed";
+        String log = String.format("\n%s login attempt by '%s', on %s", success, userName, currentDate);
+
         try {
             FileWriter loginTracker = new FileWriter("login_activity.txt", true);
             loginTracker.write(log);
@@ -75,13 +76,19 @@ public class LoginScreenController {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 600);
-        stage.setScene(scene);
-        stage.show();
-        ObservableList<Appt> alerts = SqlCon.getApptList("alert");
-        apptAlert(alerts);
+        if (validLogin) {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1200, 600);
+            stage.setScene(scene);
+            stage.show();
+            ObservableList<Appt> alerts = SqlCon.getApptList("alert");
+            apptAlert(alerts);
+        } else {
+            loginError.setVisible(true);
+            passwordField.setText("");
+            userNameField.setText("");
+        }
     }
     private void apptAlert(ObservableList<Appt> alerts) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

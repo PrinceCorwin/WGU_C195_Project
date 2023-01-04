@@ -9,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -57,7 +55,7 @@ public class ReportsController {
     public TableColumn<Appt, String> apptEnd;
     public TableColumn<Appt, Integer> apptCustId;
     public ComboBox<Integer> chooseContactBtn;
-
+    public Label contactNameLabel;
     public void initialize() throws IOException {
         ObservableList<Contact> allContacts = SqlCon.getContactList();
         ObservableList<Integer> contactIds = FXCollections.observableArrayList();
@@ -148,6 +146,12 @@ public class ReportsController {
     public void setSchedule(ActionEvent actionEvent) {
         int contactId = chooseContactBtn.getValue();
         ObservableList<Appt> appts = SqlCon.getApptsByContact(contactId);
+        ObservableList<Contact> contacts = SqlCon.getContactList();
+        for (Contact c : contacts) {
+            if (c.getId() == contactId) {
+                contactNameLabel.setText(c.getName());
+            }
+        }
         contactTable.setItems(appts);
 
     }
