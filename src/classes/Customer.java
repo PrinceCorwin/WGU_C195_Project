@@ -1,7 +1,5 @@
 package classes;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class Customer {
     private int id;
@@ -17,9 +15,6 @@ public class Customer {
     private String name;
     private String state;
     private String country;
-
-
-    private static final ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
     public Customer(int id, String name, String address, String zip, String phone,
                     String createDate, String createdBy, String lastUpdate, String updatedBy,
@@ -54,15 +49,11 @@ public class Customer {
     public String getAddress() {
         return address;
     }
-    public void setAddress(String address) {
-        this.address = address;
-    }
+
     public String getZip() {
         return zip;
     }
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
+
     public String getPhone() {
         return phone;
     }
@@ -102,14 +93,10 @@ public class Customer {
     public String getState() {
         return state;
     }
-    public void setState(String state) {
-        this.state = state;
-    }
+
     public String getCountry() {
         return country;
     }
-    public void setCountry(String country) {
-        this.country = country;
-    }
+
 
 }

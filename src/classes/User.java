@@ -6,7 +6,6 @@ package classes;
 public class User {
     static String userName;
     static int id;
-    static String password;
 
     /**
      * @return the userName of the user
@@ -16,7 +15,7 @@ public class User {
     }
 
     /**
-     * @param name the userName of the successfully logged in user
+     * @param name the userName of the successfully logged-in user
      */
     public static void setUserName(String name) {
         userName = name;
@@ -26,7 +25,7 @@ public class User {
      * @return the id of the user
      */
     public static void setId(int i) {id = i;}
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 }
