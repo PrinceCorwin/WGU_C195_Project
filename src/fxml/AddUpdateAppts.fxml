@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
+<AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="datePane" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
    <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: black;">
       <Label fx:id="apptFormTitle" layoutX="40.0" layoutY="23.0" text="NEW APPOINTMENT" textFill="#efefef">
          <font>
@@ -16,30 +17,38 @@
          </font>
       </Label>
    </AnchorPane>
-   <AnchorPane layoutX="1.0" layoutY="82.0" minWidth="-Infinity" prefHeight="140.0" prefWidth="600.0" style="-fx-background-color: white;">
-      <Label layoutX="41.0" layoutY="20.0" text="START DATE AND TIME" />
+   <AnchorPane layoutY="82.0" minWidth="-Infinity" prefHeight="140.0" prefWidth="600.0" styleClass="mainTabBg">
+      <Label layoutX="41.0" layoutY="20.0" text="START DATE AND TIME" textFill="#eeeeee" />
       <TextField fx:id="apptStartDateField" layoutX="80.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
       <TextField fx:id="apptStartTimeField" layoutX="80.0" layoutY="92.0" promptText="ex HH:MM:SS" />
-      <Label layoutX="365.0" layoutY="20.0" text="END DATE AND TIME" />
+      <Label layoutX="365.0" layoutY="20.0" text="END DATE AND TIME" textFill="#eeeeee" />
       <TextField fx:id="apptEndDateField" layoutX="408.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
       <TextField fx:id="apptEndTimeField" layoutX="408.0" layoutY="92.0" promptText="ex HH:MM:SS" />
-      <Label layoutX="41.0" layoutY="53.0" text="Date:" />
-      <Label layoutX="365.0" layoutY="53.0" text="Date:" />
-      <Label layoutX="40.0" layoutY="96.0" text="Time:" />
-      <Label layoutX="365.0" layoutY="96.0" text="Time:" />
+      <Label layoutX="41.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
+      <Label layoutX="365.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
+      <Label layoutX="40.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
+      <Label layoutX="365.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
    </AnchorPane>
    <TextField fx:id="apptIdField" disable="true" layoutX="115.0" layoutY="251.0" prefHeight="26.0" prefWidth="89.0" promptText="AUTO GEN" />
    <TextField fx:id="apptTitleField" layoutX="115.0" layoutY="289.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Daily Crew Meeting" />
    <TextField fx:id="apptLocField" layoutX="115.0" layoutY="329.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Conference Room" />
    <TextField fx:id="apptTypeField" layoutX="409.0" layoutY="251.0" promptText="ex Planning Session" />
-   <ComboBox fx:id="apptCustIdField" layoutX="408.0" layoutY="289.0" prefWidth="150.0" promptText="CUSTOMER ID" />
-   <ComboBox fx:id="apptUserIdField" layoutX="408.0" layoutY="329.0" prefWidth="150.0" promptText="USER ID" />
+   <ComboBox fx:id="apptCustIdField" layoutX="408.0" layoutY="289.0" prefWidth="150.0" promptText="CUSTOMER ID" styleClass="greenBtn" />
+   <ComboBox fx:id="apptUserIdField" layoutX="408.0" layoutY="329.0" prefWidth="150.0" promptText="USER ID">
+      <styleClass>
+         <String fx:value="blueBtn" />
+         <String fx:value="lightText" />
+      </styleClass></ComboBox>
 <!--   <TextField fx:id="apptCustIdField" layoutX="409.0" layoutY="329.0" promptText="CUSTOMER ID" />-->
 <!--   <TextField fx:id="apptUserIdField" layoutX="409.0" layoutY="452.0" promptText="USER ID" />-->
-   <ComboBox fx:id="apptContactField" accessibleRole="DATE_PICKER" layoutX="408.0" layoutY="369.0" prefWidth="150.0" promptText="CONTACT" />
+   <ComboBox fx:id="apptContactField" accessibleRole="DATE_PICKER" layoutX="408.0" layoutY="369.0" prefWidth="150.0" promptText="CONTACT">
+      <styleClass>
+         <String fx:value="exitBtn" />
+         <String fx:value="typeTab" />
+      </styleClass></ComboBox>
    <Label fx:id="errorLabel" layoutX="42.0" layoutY="446.0" textFill="RED" />
-   <Button layoutX="409.0" layoutY="429.0" mnemonicParsing="false" onAction="#onSaveAppt" text="SAVE" />
-   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" text="CANCEL" />
+   <Button layoutX="434.0" layoutY="429.0" mnemonicParsing="false" onAction="#onSaveAppt" styleClass="greenBtn" text="SAVE" />
+   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" styleClass="deleteBtn" text="CANCEL" />
    <Label layoutX="43.0" layoutY="255.0" text="Appt ID:" />
    <Label layoutX="43.0" layoutY="293.0" text="Title:" />
    <Label layoutX="43.0" layoutY="373.0" text="Description:" />

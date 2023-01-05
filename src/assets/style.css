@@ -3,18 +3,23 @@
 -fx-padding: 10px;
 }
 .mainTabBg {
-    -fx-background-color: #4A4A4A
+    -fx-background-color: #4A4A4A;
 }
 .loginBg {
 -fx-background-color: linear-gradient(#E7EFF9, #CFD6E6);
 -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 200, 0.0 , -40 , 40 );
 }
+.datePane {
+    -fx-background-color: linear-gradient(#E7EFF9, #CFD6E6);
+}
 .apptTab, .apptTab, .scheduleTab, .typeTab {
-    -fx-text-base-color: #eeeeee
+    -fx-text-base-color: #eeeeee;
 }
 .custTab {
-    -fx-text-base-color: #eeeeee
-
+    -fx-text-base-color: #eeeeee;
+}
+.lightText {
+    -fx-text-base-color: #eeeeee;
 }
 .tableMain {
 -fx-padding: 20px;
