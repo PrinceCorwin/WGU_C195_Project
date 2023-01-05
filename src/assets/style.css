@@ -1,8 +1,16 @@
-/*
+
 .tablePane {
 -fx-padding: 10px;
 }
-.label {
+.mainTabBg {
+    /*-fx-background-color: linear-gradient(#7C98B3, #637081);*/
+    -fx-background-color: #4A4A4A
+}
+.apptTab {
+    -fx-text-base-color: #eeeeee
+}
+.custTab {
+    -fx-text-base-color: #eeeeee
 
 }
 .tableMain {
@@ -12,29 +20,45 @@
 -fx-background-color: linear-gradient(#DBEEE5, #B7DACA);
 -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 10, 0.2 , 5 , 5 );
 }
-.roundBtn {
+.button {
 -fx-text-fill: #395306;
 -fx-background-insets:  0, 1;
 -fx-background-radius:  30px;
--fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 1 , 1 )
+-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 10, 0.0 , 2 , 2 )
+}
+.button:hover {
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , -1 , -1 )
 }
 .deleteBtn {
 -fx-text-fill: #eeeeee;
 -fx-background-color:  linear-gradient(#ffe8e8, #ffcfcf), radial-gradient(center 50% -40%, radius 200%, #ff5400 45%, #be1d00 50%);
 }
+.deleteBtn:hover {
+    -fx-background-color:  linear-gradient(#ffcfcf, #ffe8e8), radial-gradient(center 50% -40%, radius 200%, #be1d00 45%, #ff5400 50%);
+}
 .greenBtn {
 -fx-background-color:  linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+}
+.greenBtn:hover {
+    /*-fx-background-color:  linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);*/
+    -fx-background-color:  linear-gradient(#a9ff00, #f0ff35), radial-gradient(center 50% -40%, radius 200%, #80c800 45%, #b8ee36 50%);
+
 }
 .blueBtn {
 -fx-background-color:  linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #009BA6 45%, #00656C 50%);
 -fx-text-fill: #eeeeee;
 }
+.blueBtn:hover {
+    -fx-background-color:  linear-gradient(#a9ff00, #f0ff35), radial-gradient(center 50% -40%, radius 200%, #00656C 45%, #009BA6 50%);
+}
 
 .exitBtn {
 -fx-text-fill: #eeeeee;
--fx-background-color:  linear-gradient(white, FFFFF4), radial-gradient(center 50% -40%, radius 200%, #575757 45%, black 50%)
+-fx-background-color:  linear-gradient(white, #FFFFF4), radial-gradient(center 50% -40%, radius 200%, #575757 45%, black 50%)
 }
-
+.exitBtn:hover {
+    -fx-background-color:  linear-gradient(#FFFFF4, white), radial-gradient(center 50% -40%, radius 200%, black 45%, #575757 50%)
+}
 .table-view .column-header-background {
 -fx-background-color: linear-gradient(#009BA6,#00656C);
 }
@@ -46,4 +70,6 @@
 .table-view .column-header .label {
     -fx-text-fill: #eeeeee;
     -fx-font-weight: bold;
-}*/
+}
+
+
