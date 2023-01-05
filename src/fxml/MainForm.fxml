@@ -17,30 +17,34 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="1180.0" styleClass="mainTabBg">
                 <TableView fx:id="apptTable" layoutX="10.0" layoutY="40.0" prefHeight="400.0" prefWidth="1180.0">
                     <columns>
-                        <TableColumn fx:id="apptId" prefWidth="110.0" text="Appointment_ID" />
+                        <TableColumn fx:id="apptId" prefWidth="110.0" text="Appointment_ID">
+                     <styleClass>
+                        <String fx:value="centerText" />
+                        <String fx:value="darkColumn" />
+                     </styleClass></TableColumn>
                         <TableColumn fx:id="apptTitle" prefWidth="110.0" text="Title" />
                         <TableColumn fx:id="apptDesc" prefWidth="110.0" text="Description" />
                         <TableColumn fx:id="apptLoc" prefWidth="110.0" text="Location" />
-                        <TableColumn fx:id="apptContact" prefWidth="110.0" text="Contact" />
+                        <TableColumn fx:id="apptContact" prefWidth="110.0" styleClass="centerText" text="Contact" />
                         <TableColumn fx:id="apptType" prefWidth="110.0" text="Type" />
                         <TableColumn fx:id="apptStart" prefWidth="150.0" text="Start Date and Time" />
                         <TableColumn fx:id="apptEnd" prefWidth="150.0" text="End Date and Time" />
-                        <TableColumn fx:id="apptCustId" prefWidth="110.0" text="Customer_ID" />
-                        <TableColumn fx:id="apptUserId" prefWidth="110.0" text="User_ID" />
+                        <TableColumn fx:id="apptCustId" prefWidth="110.0" styleClass="centerText" text="Customer_ID" />
+                        <TableColumn fx:id="apptUserId" prefWidth="110.0" styleClass="centerText" text="User_ID" />
                     </columns>
                 </TableView>
-            <Button fx:id="deleteApptBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" styleClass="deleteBtn" text="DELETE" />
-            <Button fx:id="updateApptBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" styleClass="blueBtn" text="UPDATE" />
-          <Button fx:id="addApptBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" styleClass="greenBtn" text="ADD" />
             <RadioButton fx:id="allApptView" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onAllApptView" selected="true" text="ALL" textFill="#eeeeee">
                <toggleGroup>
                   <ToggleGroup fx:id="radioToggle" />
                </toggleGroup></RadioButton>
             <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="THIS WEEK" textFill="#eeeeee" toggleGroup="$radioToggle" />
-            <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
             <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="THIS MONTH" textFill="#eeeeee" toggleGroup="$radioToggle" />
-            <Button fx:id="exitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" styleClass="exitBtn" text="EXIT" />
-            <Button fx:id="reportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" styleClass="exitBtn" text="REPORTS" />
+          <Button fx:id="addApptBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" styleClass="greenBtn" text="ADD" />
+            <Button fx:id="updateApptBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" styleClass="blueBtn" text="UPDATE" />
+            <Button fx:id="apptReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" styleClass="exitBtn" text="REPORTS" />
+            <Button fx:id="deleteApptBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" styleClass="deleteBtn" text="DELETE" />
+            <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
+            <Button fx:id="apptExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" styleClass="exitBtn" text="EXIT" />
             </AnchorPane>
          <styleClass>
             <String fx:value="blueBtn" />
@@ -51,7 +55,7 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="mainTabBg">
                 <TableView fx:id="custTable" layoutX="10.0" layoutY="14.0" prefHeight="434.0" prefWidth="1180.0">
                     <columns>
-                        <TableColumn fx:id="custId" prefWidth="90.0" text="Customer_ID" />
+                        <TableColumn fx:id="custId" prefWidth="90.0" styleClass="centerText" text="Customer_ID" />
                         <TableColumn fx:id="custName" prefWidth="90.0" text="Name" />
                         <TableColumn fx:id="custAddress" prefWidth="90.0" text="Address" />
                         <TableColumn fx:id="custZip" prefWidth="90.0" text="Postal Code" />
@@ -62,13 +66,15 @@
                         <TableColumn fx:id="custCreatedBy" prefWidth="90.0" text="Created_By" />
                         <TableColumn fx:id="custLastUpdate" prefWidth="90.0" text="Last_Update" />
                         <TableColumn fx:id="custUpdatedBy" prefWidth="140.0" text="Last_Updated_By" />
-                        <TableColumn fx:id="custDivId" prefWidth="90.0" text="Division_ID" />
+                        <TableColumn fx:id="custDivId" prefWidth="90.0" styleClass="centerText" text="Division_ID" />
                     </columns>
                 </TableView>
                 <Button fx:id="addCustBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" styleClass="greenBtn" text="ADD" />
                 <Button fx:id="updateCustBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" styleClass="blueBtn" text="UPDATE" />
-                <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
                 <Button fx:id="deleteCutsBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" styleClass="deleteBtn" text="DELETE" />
+                <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
+            <Button fx:id="custReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" styleClass="exitBtn" text="REPORTS" />
+            <Button fx:id="custExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" styleClass="exitBtn" text="EXIT" />
             </AnchorPane>
         </Tab>
     </TabPane>

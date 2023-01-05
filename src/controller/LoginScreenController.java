@@ -3,6 +3,7 @@ package controller;
 import classes.Appt;
 import databaseHelp.Helper;
 import databaseHelp.SqlCon;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -106,5 +107,9 @@ public class LoginScreenController {
         }
         alert.setContentText(appts);
         alert.showAndWait();
+    }
+
+    public void onCancel()  {
+        Platform.exit();
     }
 }

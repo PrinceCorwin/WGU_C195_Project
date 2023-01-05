@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
     <AnchorPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: Black;">
         <Label layoutX="35.0" layoutY="12.0" text="REPORTS" textFill="#efefef">
             <font>
@@ -20,10 +21,10 @@
     </AnchorPane>
     <TabPane layoutY="60.0" prefHeight="540.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="  APPTS BY TYPE / MONTH  ">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView fx:id="typeTable" layoutY="72.0" prefHeight="278.0" prefWidth="1200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="mainTabBg">
+                <TableView fx:id="typeTable" layoutX="50.0" layoutY="72.0" prefHeight="278.0" prefWidth="1100.0">
                     <columns>
-                        <TableColumn fx:id="typeType" prefWidth="150.0" text="TYPE" />
+                        <TableColumn fx:id="typeType" prefWidth="200.0" text="TYPE" />
                         <TableColumn fx:id="typeJan" prefWidth="75.0" text="JAN" />
                         <TableColumn fx:id="typeFeb" prefWidth="75.0" text="FEB" />
                         <TableColumn fx:id="typeMar" prefWidth="75.0" text="MAR" />
@@ -38,17 +39,21 @@
                         <TableColumn fx:id="typeDec" prefWidth="75.0" text="DEC" />
                     </columns>
                 </TableView>
-                <Button fx:id="typeHomeBtn" layoutX="774.0" layoutY="400.0" mnemonicParsing="false" onAction="#onHome" text="HOME" />
-            <Label layoutX="20.0" layoutY="21.0" text="TYPE OF APPOINTMENTS PER MONTH">
+                <Button fx:id="typeHomeBtn" layoutX="774.0" layoutY="400.0" mnemonicParsing="false" onAction="#onHome" styleClass="exitBtn" text="HOME" />
+            <Label layoutX="50.0" layoutY="21.0" text="TYPE OF APPOINTMENTS PER MONTH" textFill="#eeeeee">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             </AnchorPane>
+         <styleClass>
+            <String fx:value="blueBtn" />
+            <String fx:value="typeTab" />
+         </styleClass>
         </Tab>
-        <Tab text="  APPTS BY USER  / MONTH">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView fx:id="userTable" layoutY="72.0" prefHeight="278.0" prefWidth="1200.0">
+        <Tab styleClass="greenBtn" text="  APPTS BY USER  / MONTH">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="mainTabBg">
+                <TableView fx:id="userTable" layoutX="113.0" layoutY="72.0" prefHeight="278.0" prefWidth="975.0">
                     <columns>
                         <TableColumn fx:id="userId" prefWidth="75.0" text="USER ID" />
                         <TableColumn fx:id="userJan" prefWidth="75.0" text="JAN" />
@@ -65,7 +70,7 @@
                         <TableColumn fx:id="userDec" prefWidth="75.0" text="DEC" />
                     </columns>
                 </TableView>
-                <Label layoutX="20.0" layoutY="21.0" text="APPOINTMENTS CREATED BY EACH USER PER MONTH">
+                <Label layoutX="113.0" layoutY="23.0" text="APPOINTMENTS CREATED BY EACH USER PER MONTH" textFill="#eeeeee">
                     <font>
                         <Font size="18.0" />
                     </font>
@@ -74,21 +79,25 @@
             </AnchorPane>
         </Tab>
         <Tab text="  CONTACT SCHEDULES  ">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <ComboBox fx:id="chooseContactBtn" layoutX="27.0" layoutY="400.0" onAction="#setSchedule" prefWidth="150.0" promptText="CHOOSE CONTACT" />
-                <TableView fx:id="contactTable" layoutY="72.0" prefHeight="278.0" prefWidth="1200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="mainTabBg">
+                <ComboBox fx:id="chooseContactBtn" layoutX="27.0" layoutY="400.0" onAction="#setSchedule" prefWidth="150.0" promptText="CHOOSE CONTACT">
+               <styleClass>
+                  <String fx:value="blueBtn" />
+                  <String fx:value="typeTab" />
+               </styleClass></ComboBox>
+                <TableView fx:id="contactTable" layoutX="25.0" layoutY="72.0" prefHeight="278.0" prefWidth="1150.0">
                     <columns>
                         <TableColumn fx:id="apptId" prefWidth="75.0" text="APPT ID" />
                         <TableColumn fx:id="apptTitle" prefWidth="150.0" text="TITLE" />
                         <TableColumn fx:id="apptType" prefWidth="150.0" text="TYPE" />
-                        <TableColumn fx:id="apptDesc" prefWidth="325.0" text="DESCRIPTION" />
+                        <TableColumn fx:id="apptDesc" prefWidth="300.0" text="DESCRIPTION" />
                         <TableColumn fx:id="apptStart" minWidth="0.0" prefWidth="200.0" text="START DATE / TIME" />
                         <TableColumn fx:id="apptEnd" prefWidth="200.0" text="END DATE / TIME" />
-                        <TableColumn fx:id="apptCustId" prefWidth="100.0" text="CUSTOMER ID" />
+                        <TableColumn fx:id="apptCustId" prefWidth="75.0" text="CUST ID" />
                     </columns>
                 </TableView>
-                <Button fx:id="contactHomeBtn" layoutX="774.0" layoutY="400.0" mnemonicParsing="false" onAction="#onHome" text="HOME" />
-            <Label layoutX="20.0" layoutY="21.0" text="APPOINTMENT SCHEDULE PER CONTACT">
+                <Button fx:id="contactHomeBtn" layoutX="774.0" layoutY="400.0" mnemonicParsing="false" onAction="#onHome" styleClass="exitBtn" text="HOME" />
+            <Label layoutX="25.0" layoutY="26.0" text="APPOINTMENT SCHEDULE PER CONTACT" textFill="#eeeeee">
                <font>
                   <Font size="18.0" />
                </font>
@@ -99,6 +108,10 @@
                </font>
             </Label>
             </AnchorPane>
+         <styleClass>
+            <String fx:value="deleteBtn" />
+            <String fx:value="scheduleTab" />
+         </styleClass>
         </Tab>
     </TabPane>
 </AnchorPane>
