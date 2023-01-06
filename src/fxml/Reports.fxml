@@ -102,7 +102,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="contactNameLabel" layoutX="489.0" layoutY="26.0">
+            <Label fx:id="contactNameLabel" layoutX="489.0" layoutY="26.0" textFill="#eeeeee">
                <font>
                   <Font size="18.0" />
                </font>

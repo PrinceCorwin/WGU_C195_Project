@@ -7,21 +7,22 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Controls the behavior of the loginScreen.fxml scene. Compares user input of username and
+ * password with existing users in database to allow access to the application.
+ * Successful login sets scene to mainForm.fxml. Incorrect credentials sets error
+ * message. All attempts are logged in login_activity.txt file.
+ * @author Steve Corwin Amalfitano
+ */
 public class LoginScreenController {
     public Button loginSubmit;
     public Label loginError;
@@ -31,6 +32,10 @@ public class LoginScreenController {
     public Label userLocationLabel;
     public Label locationLabel;
 
+    /**
+     * Initializes the form with user location data and translates to French
+     * language if user computer is set to French by calling translateApp().
+     */
     public void initialize() {
         Locale currentLocale = Locale.getDefault();
         String currentLocation = currentLocale.getDisplayCountry();
@@ -48,6 +53,9 @@ public class LoginScreenController {
         }
     }
 
+    /**
+     * Translates loginForm to French.
+     */
     private void translateApp() {
         loginSubmit.setText("SOUMETTRE");
         loginError.setText("Nom d'utilisateur ou mot de passe non reconnu. \nVeuillez réessayer");
@@ -55,10 +63,12 @@ public class LoginScreenController {
         passwordField.setPromptText("LE MOT DE PASSE");
         userNameField.setPromptText("NOM D'UTILISATEUR");
         loginLabel.setText("CONNEXION");
-
-
     }
 
+    /**
+     * Compares user input of username and password with existing user info in database.
+     * Logs attempt to login_activity.txt file.
+     */
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
         loginError.setVisible(false);
         String userName = userNameField.getText();
@@ -91,6 +101,11 @@ public class LoginScreenController {
             userNameField.setText("");
         }
     }
+
+    /**
+     * Creates alert upon successful login that shows any existing Appts
+     * that are within 15 minutes of user login
+     */
     private void apptAlert(ObservableList<Appt> alerts) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         String appts = "";
@@ -109,6 +124,9 @@ public class LoginScreenController {
         alert.showAndWait();
     }
 
+    /**
+     * Exits proram
+     */
     public void onCancel()  {
         Platform.exit();
     }

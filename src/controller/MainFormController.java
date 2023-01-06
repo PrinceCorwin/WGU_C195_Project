@@ -92,8 +92,8 @@ public class MainFormController {
         basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 450);
     }
     /**
-     * Upon button click, scene is replaced by the addPart.fxml scene and the selected part is stored in the
-     * addPartController to be modified
+     * Upon button click, scene is replaced by the addUpdateCustomer.fxml scene and the selected Customer is stored in the
+     * addUpdateCustomer to be modified
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */

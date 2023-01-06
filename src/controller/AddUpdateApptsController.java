@@ -1,5 +1,6 @@
 package controller;
 
+import Interfaces.SetStageInterface;
 import classes.Appt;
 import classes.Contact;
 import classes.Customer;
@@ -18,14 +19,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
-
 import static java.lang.Integer.parseInt;
 
+/**
+ * Controls the behavior of the addUpdateAppts.fxml scene. Provides functionality to
+ * add new Appt or modify existing Appt, based on user input to the displayed form.
+ * @author Steve Corwin Amalfitano
+ */
 public class AddUpdateApptsController {
 
     ObservableList<Contact> allContacts = SqlCon.getContactList();
@@ -44,7 +48,13 @@ public class AddUpdateApptsController {
     public TextField apptStartDateField;
     public TextField apptStartTimeField;
     public Label apptFormTitle;
+    private static Appt modifiedAppt = null;
 
+    /**
+     * Initializes the form with existing data if Appt has
+     * been selected and modify button clicked on mainForm.
+     * Also initializes the apptTable to be ready to accept data.
+     */
     public void initialize() {
 
         ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
@@ -88,17 +98,31 @@ public class AddUpdateApptsController {
             apptIdField.setText(String.valueOf(getUniqueId()));
         }
     }
-    private static Appt modifiedAppt = null;
+
+    /**
+     * Sets modifiedAppt variable to selected Appt to be modified from the mainForm controller.
+     * @param appt the Appt to set
+     */
     public static void setModifiedAppt(Appt appt) {
         modifiedAppt = appt;
     }
 
+    /**
+     * Changes the current scene back to the mainForm.fxml by calling backToMain() when cancel button is clicked.
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onApptCancel(ActionEvent actionEvent) throws IOException {
         hideErrors();
         modifiedAppt = null;
         backToMain(actionEvent);
     }
 
+    /**
+     * replaces current scene with the mainForm.fxml scene
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     private void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -107,6 +131,21 @@ public class AddUpdateApptsController {
         stage.show();
     }
 
+    SetStageInterface basicStage = (actionEvent, path, width, height) -> {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.show();
+    };
+
+    /**
+     * Checks date and time user input for valid format, as well as checking to verify all
+     * combobox selections have been made. New Appt is either saved to database or an error
+     * message is displayed for user to correct. backToMain() is called upon successful save.
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onSaveAppt(ActionEvent actionEvent) throws IOException {
         boolean errors = false;
         String startTime;
@@ -177,19 +216,24 @@ public class AddUpdateApptsController {
         }
     }
 
+    /**
+     * Hides errorLabel by setting text to empty string
+     */
     private void hideErrors() {
         errorLabel.setText("");
     }
 
-//    private boolean checkForSelect(ComboBox[] comboArray) {
-//        for (ComboBox c : comboArray) {
-//            if (c.getSelectionModel().isEmpty()) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
+    /**
+     * Verifies new / updated Appt being set is within business hours and that there is no overlap
+     * between new Appt and any existing Appts of the Customer. verifyOverlap() and verifyBusHours()
+     * are called to determine true or false.
+     * @param start the starting dateTime (yyyy-MM-dd HH:mm:ss) of the Appt to set.
+     * @param end the ending dateTime string (yyyy-MM-dd HH:mm:ss) of the Appt to set.
+     * @param startTime the starting time string (HH:mm:ss) of the Appt to set
+     * @param endTime the ending time (HH:mm:ss) of the Appt to set
+     * @param custId the id of the customer associated with the new / update Appt
+     * @return true if no overlap and within business hours, otherwise returns false.
+     */
     private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId) {
         if (!SqlCon.verifyOverlap(start, end, custId)) {
             errorLabel.setText("Error: Appointment time overlaps another appointment \n       with the same customer");
@@ -202,6 +246,16 @@ public class AddUpdateApptsController {
         }
         return true;
     }
+
+    /**
+     * Splits the combined date and time string from the database into two seperate strings
+     * placed into a string array.
+     * @param dateStr the date/time string to split.
+     * @param dateOrTime which part of split string ("date" or "time") to return. "date" is
+     *                   the default. It will be returned unless "time" is sent as
+     *                   argument.
+     * @return either first or second index of string array, depending on value of dateOrTime parameter.
+     */
     public String splitDateTime(String dateStr, String dateOrTime) {
         String[] splitDate = dateStr.split(" ", 2);
         if (Objects.equals(dateOrTime, "time")) {
@@ -210,6 +264,12 @@ public class AddUpdateApptsController {
             return splitDate[0];
         }
     }
+
+    /**
+     * Iterates through integers with while loop starting at 1 and compares to existing Appointment_IDs
+     * to find unused integer for Appointment_ID
+     * @return the first unused integer found.
+     */
     public static int getUniqueId() {
         int count = 0;
         ObservableList<Appt> appts = SqlCon.getApptList("all");

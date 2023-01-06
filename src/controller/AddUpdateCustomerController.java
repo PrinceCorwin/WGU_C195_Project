@@ -21,6 +21,11 @@ import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Controls the behavior of the addUpdateCustomer.fxml scene. Provides functionality to either
+ * add new Customer or modify existing Customer, based on user input to the displayed form.
+ * @author Steve Corwin Amalfitano
+ */
 public class AddUpdateCustomerController {
     private static Customer modifiedCust = null;
     public Label custFormTitle;
@@ -35,8 +40,12 @@ public class AddUpdateCustomerController {
     int divId;
     boolean errors = false;
 
+    /**
+     * Initializes the form with existing data if Customer has
+     * been selected and modify button clicked on mainForm.
+     * Also initializes the custTable to be ready to accept data.
+     */
     public void initialize() {
-        ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
         ObservableList<Country> allCountries = SqlCon.getCountryList();
         ObservableList<String> countryNames = FXCollections.observableArrayList();
         if(modifiedCust != null) {
@@ -55,13 +64,30 @@ public class AddUpdateCustomerController {
             custCountryBox.setItems(countryNames);
         }
     }
+
+    /**
+     * Sets modifiedCust variable to selected Customer to be modified from the mainForm controller.
+     * @param customer the Customer to set
+     */
     public static void setModifiedCust(Customer customer) {
         modifiedCust = customer;
     }
+
+    /**
+     * Changes the current scene back to the mainForm.fxml by calling backToMain() when cancel button is clicked.
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onCustCancel(ActionEvent actionEvent) throws IOException {
         modifiedCust = null;
         backToMain(actionEvent);
     }
+
+    /**
+     * replaces current scene with the mainForm.fxml scene
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     private void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -70,6 +96,13 @@ public class AddUpdateCustomerController {
         stage.show();
     }
 
+    /**
+     * Checks to verify all combobox selections have been made.
+     * New Customer is either saved to database or an error
+     * message is displayed for user to correct. backToMain() is called upon successful save
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onCustSave(ActionEvent actionEvent) throws IOException{
         errors = false;
         custErrorLabel.setVisible(false);
@@ -108,6 +141,12 @@ public class AddUpdateCustomerController {
                 throw new RuntimeException(e);
             }
     }
+
+    /**
+     * Iterates through integers with while loop starting at 1 and compares to existing Customer_IDs
+     * to find unused integer for Customer_ID
+     * @return the first unused integer found.
+     */
     public static int getUniqueId() {
         int count = 0;
         ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
@@ -125,6 +164,9 @@ public class AddUpdateCustomerController {
         return count;
     }
 
+    /**
+     * options in the custStateBox combobox are set depending on user selection of the Country combobox.
+     */
     public void setDivisions() {
         custStateBox.setDisable(false);
         int countryId = SqlCon.getCountryIdFromName(custCountryBox.getValue());
@@ -138,6 +180,10 @@ public class AddUpdateCustomerController {
         custStateBox.setItems(divisionNames);
     }
 
+    /**
+     * calls getDivIdFromName to get divId from first_level_division name selected
+     * by user in the custStateBox
+     */
     public void setDivId() {
         divId = SqlCon.getDivIdFromName(custStateBox.getValue());
     }
