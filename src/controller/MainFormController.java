@@ -89,7 +89,7 @@ public class MainFormController {
         stage.show();
     };
     public void onAddCust(ActionEvent actionEvent) throws IOException {
-        basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 400);
+        basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 450);
     }
     /**
      * Upon button click, scene is replaced by the addPart.fxml scene and the selected part is stored in the

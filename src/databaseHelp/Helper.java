@@ -1,6 +1,7 @@
 package databaseHelp;
 
 import Interfaces.DateFormatInterface;
+import javafx.scene.control.ComboBox;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -116,5 +117,13 @@ public class Helper {
         SimpleDateFormat formatter = fullFormat.dateFormat();
         Date date = new Date();
         return localToUTC(formatter.format(date));
+    }
+    public static boolean checkForSelect(ComboBox[] comboArray) {
+        for (ComboBox c : comboArray) {
+            if (c.getSelectionModel().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

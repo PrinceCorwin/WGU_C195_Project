@@ -17,18 +17,7 @@
          </font>
       </Label>
    </AnchorPane>
-   <AnchorPane layoutY="82.0" minWidth="-Infinity" prefHeight="140.0" prefWidth="600.0" styleClass="mainTabBg">
-      <Label layoutX="41.0" layoutY="20.0" text="START DATE AND TIME" textFill="#eeeeee" />
-      <TextField fx:id="apptStartDateField" layoutX="80.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
-      <TextField fx:id="apptStartTimeField" layoutX="80.0" layoutY="92.0" promptText="ex HH:MM:SS" />
-      <Label layoutX="365.0" layoutY="20.0" text="END DATE AND TIME" textFill="#eeeeee" />
-      <TextField fx:id="apptEndDateField" layoutX="408.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
-      <TextField fx:id="apptEndTimeField" layoutX="408.0" layoutY="92.0" promptText="ex HH:MM:SS" />
-      <Label layoutX="41.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
-      <Label layoutX="365.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
-      <Label layoutX="40.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
-      <Label layoutX="365.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
-   </AnchorPane>
+   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" prefWidth="60.0" styleClass="deleteBtn" text="CANCEL" />
    <TextField fx:id="apptIdField" disable="true" layoutX="115.0" layoutY="251.0" prefHeight="26.0" prefWidth="89.0" promptText="AUTO GEN" />
    <TextField fx:id="apptTitleField" layoutX="115.0" layoutY="289.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Daily Crew Meeting" />
    <TextField fx:id="apptLocField" layoutX="115.0" layoutY="329.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Conference Room" />
@@ -47,12 +36,23 @@
          <String fx:value="typeTab" />
       </styleClass></ComboBox>
    <Label fx:id="errorLabel" layoutX="42.0" layoutY="446.0" textFill="RED" />
-   <Button layoutX="434.0" layoutY="429.0" mnemonicParsing="false" onAction="#onSaveAppt" styleClass="greenBtn" text="SAVE" />
-   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" styleClass="deleteBtn" text="CANCEL" />
+   <Button layoutX="430.0" layoutY="429.0" mnemonicParsing="false" onAction="#onSaveAppt" prefWidth="60.0" styleClass="greenBtn" text="SAVE" />
    <Label layoutX="43.0" layoutY="255.0" text="Appt ID:" />
    <Label layoutX="43.0" layoutY="293.0" text="Title:" />
    <Label layoutX="43.0" layoutY="373.0" text="Description:" />
    <Label layoutX="43.0" layoutY="333.0" text="Location:" />
    <TextArea fx:id="apptDescField" layoutX="115.0" layoutY="369.0" prefHeight="68.0" prefWidth="174.0" promptText="ex Plan the daily work assignments" />
    <Label layoutX="368.0" layoutY="255.0" text="Type:" />
+   <AnchorPane layoutY="82.0" minWidth="-Infinity" prefHeight="140.0" prefWidth="600.0" style="-fx-background-color: #00656C;">
+      <Label layoutX="41.0" layoutY="20.0" text="START DATE AND TIME" textFill="#eeeeee" />
+      <TextField fx:id="apptStartDateField" layoutX="80.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
+      <TextField fx:id="apptStartTimeField" layoutX="80.0" layoutY="92.0" promptText="ex HH:MM:SS" />
+      <Label layoutX="365.0" layoutY="20.0" text="END DATE AND TIME" textFill="#eeeeee" />
+      <TextField fx:id="apptEndDateField" layoutX="408.0" layoutY="49.0" promptText="ex YYYY-MM-DD" />
+      <TextField fx:id="apptEndTimeField" layoutX="408.0" layoutY="92.0" promptText="ex HH:MM:SS" />
+      <Label layoutX="41.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
+      <Label layoutX="365.0" layoutY="53.0" text="Date:" textFill="#eeeeee" />
+      <Label layoutX="40.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
+      <Label layoutX="365.0" layoutY="96.0" text="Time:" textFill="#eeeeee" />
+   </AnchorPane>
 </AnchorPane>

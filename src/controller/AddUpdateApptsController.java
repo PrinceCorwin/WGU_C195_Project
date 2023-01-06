@@ -131,7 +131,7 @@ public class AddUpdateApptsController {
             end = Helper.localToUTC(apptEndDateField.getText() + " " + endTime);
             start = Helper.localToUTC(apptStartDateField.getText() + " " + startTime);
             ComboBox[] comboArray = {apptContactField, apptCustIdField, apptUserIdField};
-            if (checkForSelect(comboArray)) {
+            if (Helper.checkForSelect(comboArray)) {
                 contact = apptContactField.getValue();
                 custId = apptCustIdField.getValue();
                 userId = apptUserIdField.getValue();
@@ -149,7 +149,7 @@ public class AddUpdateApptsController {
             }
         } else {
             errors = true;
-            errorLabel.setText("Error: Date must be entered in yyyy-MM-dd format. \n       Time must be entered in HH:mm:ss format");
+            errorLabel.setText("Error: Date must be entered in yyyy-MM-dd format. \n       Time must be entered in 24 hour HH:mm:ss format");
         }
 
 
@@ -181,14 +181,14 @@ public class AddUpdateApptsController {
         errorLabel.setText("");
     }
 
-    private boolean checkForSelect(ComboBox[] comboArray) {
-        for (ComboBox c : comboArray) {
-            if (c.getSelectionModel().isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean checkForSelect(ComboBox[] comboArray) {
+//        for (ComboBox c : comboArray) {
+//            if (c.getSelectionModel().isEmpty()) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId) {
         if (!SqlCon.verifyOverlap(start, end, custId)) {

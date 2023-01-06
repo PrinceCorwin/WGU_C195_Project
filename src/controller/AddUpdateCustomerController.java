@@ -1,6 +1,7 @@
 package controller;
 
 import classes.*;
+import databaseHelp.Helper;
 import databaseHelp.SqlCon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ public class AddUpdateCustomerController {
     public TextField custIdField;
     public TextField custZipField;
     int divId;
+    boolean errors = false;
 
     public void initialize() {
         ObservableList<Customer> allCustomers = SqlCon.getCustomerList();
@@ -69,29 +71,39 @@ public class AddUpdateCustomerController {
     }
 
     public void onCustSave(ActionEvent actionEvent) throws IOException{
+        errors = false;
+        custErrorLabel.setVisible(false);
         int id = parseInt(custIdField.getText());
         String name = custNameField.getText();
         String address = custAddressField.getText();
         String zip = custZipField.getText();
         String phone = custPhoneField.getText();
         String userName = User.getUserName();
-
             try {
-                String custQuery;
+                String custQuery = null;
                 if (modifiedCust == null) {
-                    custQuery = String.format("INSERT INTO customers VALUES(%d, '%s', '%s', '%s', '%s', NOW(), '%s'," +
-                                    "NOW(), '%s', %d)",
-                            id, name, address, zip, phone, userName, userName, divId);
+                    ComboBox[] comboArray = {custCountryBox, custStateBox};
+                    if (Helper.checkForSelect(comboArray)) {
+                        divId = SqlCon.getDivIdFromName(custStateBox.getValue());
+                        custQuery = String.format("INSERT INTO customers VALUES(%d, '%s', '%s', '%s', '%s', NOW(), '%s'," +
+                                        "NOW(), '%s', %d)", id, name, address, zip, phone, userName, userName, divId);
+                    } else {
+                        custErrorLabel.setVisible(true);
+                        errors = true;
+                    }
                 } else {
                     setDivId();
                     custQuery = String.format("UPDATE customers SET Customer_Name = '%s', Address = '%s', Postal_Code = '%s', Phone = '%s'," +
                                     "Last_Update = NOW(), Last_Updated_By = '%s', Division_ID = %d WHERE Customer_ID = %d",
                             name, address, zip, phone, userName, divId, id);
                 }
-                PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
-                myPs.executeUpdate();
-                modifiedCust = null;
-                backToMain(actionEvent);
+                if (!errors) {
+                    PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
+                    myPs.executeUpdate();
+                    modifiedCust = null;
+                    backToMain(actionEvent);
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

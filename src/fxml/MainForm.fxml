@@ -39,12 +39,12 @@
                </toggleGroup></RadioButton>
             <RadioButton fx:id="weekApptView" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" onAction="#onWeekApptView" text="THIS WEEK" textFill="#eeeeee" toggleGroup="$radioToggle" />
             <RadioButton fx:id="monthApptView" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMonthApptView" text="THIS MONTH" textFill="#eeeeee" toggleGroup="$radioToggle" />
-          <Button fx:id="addApptBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" styleClass="greenBtn" text="ADD" />
-            <Button fx:id="updateApptBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" styleClass="blueBtn" text="UPDATE" />
-            <Button fx:id="apptReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" styleClass="exitBtn" text="REPORTS" />
-            <Button fx:id="deleteApptBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" styleClass="deleteBtn" text="DELETE" />
+          <Button fx:id="addApptBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddAppt" prefWidth="68.0" styleClass="greenBtn" text="ADD" />
+            <Button fx:id="updateApptBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateAppt" prefWidth="60.0" styleClass="blueBtn" text="UPDATE" />
+            <Button fx:id="apptReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" prefWidth="68.0" styleClass="exitBtn" text="REPORTS" />
+            <Button fx:id="deleteApptBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteAppt" prefWidth="60.0" styleClass="deleteBtn" text="DELETE" />
             <Label fx:id="selectApptError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT AN APPOINTMENT BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
-            <Button fx:id="apptExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" styleClass="exitBtn" text="EXIT" />
+            <Button fx:id="apptExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" prefWidth="60.0" styleClass="exitBtn" text="EXIT" />
             </AnchorPane>
          <styleClass>
             <String fx:value="blueBtn" />
@@ -69,12 +69,12 @@
                         <TableColumn fx:id="custDivId" prefWidth="90.0" styleClass="centerText" text="Division_ID" />
                     </columns>
                 </TableView>
-                <Button fx:id="addCustBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" styleClass="greenBtn" text="ADD" />
-                <Button fx:id="updateCustBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" styleClass="blueBtn" text="UPDATE" />
-                <Button fx:id="deleteCutsBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" styleClass="deleteBtn" text="DELETE" />
+                <Button fx:id="addCustBtn" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#onAddCust" prefWidth="68.0" styleClass="greenBtn" text="ADD" />
+                <Button fx:id="updateCustBtn" layoutX="103.0" layoutY="472.0" mnemonicParsing="false" onAction="#onUpdateCust" prefWidth="60.0" styleClass="blueBtn" text="UPDATE" />
+                <Button fx:id="deleteCutsBtn" layoutX="320.0" layoutY="472.0" mnemonicParsing="false" onAction="#onDeleteCust" prefWidth="60.0" styleClass="deleteBtn" text="DELETE" />
                 <Label fx:id="selectCustError" layoutX="464.0" layoutY="476.0" text="PLEASE SELECT A CUSTOMER BEFORE CLICKING UPDATE OR DELETE" textFill="RED" visible="false" />
-            <Button fx:id="custReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" styleClass="exitBtn" text="REPORTS" />
-            <Button fx:id="custExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" styleClass="exitBtn" text="EXIT" />
+            <Button fx:id="custReportsBtn" layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#onReports" prefWidth="68.0" styleClass="exitBtn" text="REPORTS" />
+            <Button fx:id="custExitBtn" layoutX="916.0" layoutY="472.0" mnemonicParsing="false" onAction="#onExit" prefWidth="60.0" styleClass="exitBtn" text="EXIT" />
             </AnchorPane>
         </Tab>
     </TabPane>
