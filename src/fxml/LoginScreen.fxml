@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreenController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreenController">
    <AnchorPane layoutX="269.0" layoutY="173.0" prefHeight="235.0" prefWidth="462.0" styleClass="loginBg">
       <Button fx:id="loginSubmit1" alignment="TOP_RIGHT" layoutX="376.0" layoutY="190.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onCancel" styleClass="deleteBtn" text="CANCEL" textAlignment="RIGHT" />
       <TextField fx:id="userNameField" layoutX="23.0" layoutY="65.0" prefHeight="26.0" prefWidth="416.0" promptText="USERNAME" styleClass="inputField" />

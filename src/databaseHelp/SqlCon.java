@@ -21,10 +21,6 @@ public abstract class SqlCon {
     private static final String appUser = "sqlUser";
     public static Connection appConn;
 
-//    static DateFormatInterface updateQuery = (query) -> {
-//        PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
-//        myPs.executeUpdate();
-//    };
 
     public static void openConnection()
     {
