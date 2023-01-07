@@ -1,5 +1,6 @@
 package controller;
 
+import Interfaces.SetStageInterface;
 import classes.*;
 import databaseHelp.Helper;
 import databaseHelp.SqlCon;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 /**
- * Controls the behavior of the addUpdateCustomer.fxml scene. Provides functionality to either
+ * Controls the behavior of the AddUpdateCustomer.fxml scene. Provides functionality to either
  * add new Customer or modify existing Customer, based on user input to the displayed form.
  * @author Steve Corwin Amalfitano
  */
@@ -43,7 +44,6 @@ public class AddUpdateCustomerController {
     /**
      * Initializes the form with existing data if Customer has
      * been selected and modify button clicked on mainForm.
-     * Also initializes the custTable to be ready to accept data.
      */
     public void initialize() {
         ObservableList<Country> allCountries = SqlCon.getCountryList();
@@ -66,6 +66,21 @@ public class AddUpdateCustomerController {
     }
 
     /**
+     * lambda expression to change current scene to a new scene. Used to clean up repeated code.
+     * @param actionEvent the action event
+     * @param path the path of the fxml file of the scene
+     * @param width the width of the scene
+     * @param height the height of the scene
+     */
+    SetStageInterface basicStage = (ActionEvent actionEvent, String path, float width, float height) -> {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.show();
+    };
+
+    /**
      * Sets modifiedCust variable to selected Customer to be modified from the mainForm controller.
      * @param customer the Customer to set
      */
@@ -74,32 +89,21 @@ public class AddUpdateCustomerController {
     }
 
     /**
-     * Changes the current scene back to the mainForm.fxml by calling backToMain() when cancel button is clicked.
+     * Changes the current scene back to the MainForm.fxml.
+     * lambda expression used here to change current scene to MainForm.fxml
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */
     public void onCustCancel(ActionEvent actionEvent) throws IOException {
         modifiedCust = null;
-        backToMain(actionEvent);
+        basicStage.setStage(actionEvent, "/fxml/MainForm.fxml", 1200, 600);
     }
 
-    /**
-     * replaces current scene with the mainForm.fxml scene
-     * @param actionEvent the action event
-     * @throws IOException Catches any exceptions thrown during data input / output
-     */
-    private void backToMain(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 600);
-        stage.setScene(scene);
-        stage.show();
-    }
 
     /**
+     * New or updated Customer is either saved to database or an error message is displayed for user to correct.
      * Checks to verify all combobox selections have been made.
-     * New Customer is either saved to database or an error
-     * message is displayed for user to correct. backToMain() is called upon successful save
+     * lambda expression used here to change current scene to MainForm.fxml upon successful save.
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */
@@ -134,7 +138,7 @@ public class AddUpdateCustomerController {
                     PreparedStatement myPs = SqlCon.getConnection().prepareStatement(custQuery);
                     myPs.executeUpdate();
                     modifiedCust = null;
-                    backToMain(actionEvent);
+                    basicStage.setStage(actionEvent, "/fxml/mainForm.fxml", 1200, 600);
                 }
 
             } catch (SQLException e) {

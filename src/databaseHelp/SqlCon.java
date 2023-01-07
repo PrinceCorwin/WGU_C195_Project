@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TimeZone;
 
+/**
+ * Provides sql based helper functions for querying the database to other methods throughout the application
+ * @author Steve Corwin Amalfitano
+ */
 public abstract class SqlCon {
     private static final String sqlProtocol = "jdbc";
     private static final String splVend = ":mysql:";
@@ -21,7 +25,9 @@ public abstract class SqlCon {
     private static final String appUser = "sqlUser";
     public static Connection appConn;
 
-
+    /**
+     * Opens the connection to the database
+     */
     public static void openConnection()
     {
         try {
@@ -34,10 +40,17 @@ public abstract class SqlCon {
         }
     }
 
+    /**
+     * Gets the connection to the database
+     * @return the connection
+     */
     public static Connection getConnection() {
         return appConn;
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public static void closeConnection() {
         try {
             appConn.close();
@@ -48,6 +61,12 @@ public abstract class SqlCon {
             System.out.println("Error:" + e.getMessage());
         }
     }
+
+    /**
+     * Gets the current Appt list from the database
+     * @param view the filter applied to the list ("all", "week", "month")
+     * @return the Observable list of Appts
+     */
     public static ObservableList<Appt> getApptList(String view) {
         ObservableList<Appt> allAppts = FXCollections.observableArrayList();
 
@@ -90,6 +109,11 @@ public abstract class SqlCon {
         }
         return allAppts;
     }
+
+    /**
+     * Gets the current Customer list from the database
+     * @return the Observable list of Customers
+     */
     public static ObservableList<Customer> getCustomerList() {
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
@@ -134,6 +158,10 @@ public abstract class SqlCon {
         return allCustomers;
     }
 
+    /**
+     * Gets the current Contact list from the database
+     * @return the Observable list of Contacts
+     */
     public static ObservableList<Contact> getContactList() {
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
@@ -152,6 +180,11 @@ public abstract class SqlCon {
         }
         return allContacts;
     }
+
+    /**
+     * Deletes a selected Customer from the database
+     * @param deletedCust the Customer to delete
+     */
     public static void deleteCust(Customer deletedCust) {
         try {
             int id = deletedCust.getId();
@@ -162,6 +195,11 @@ public abstract class SqlCon {
         } catch (SQLException e) {
         }
     }
+
+    /**
+     * Deletes a selected Appt from the database
+     * @param deletedAppt the Appt to delete
+     */
     public static void deleteAppt(Appt deletedAppt) {
         try {
             int id = deletedAppt.getId();
@@ -174,6 +212,10 @@ public abstract class SqlCon {
         }
     }
 
+    /**
+     * Gets the current list of unique userIds from database
+     * @return The Observable List of userIds
+     */
     public static ObservableList<Integer> getUserIds() {
         ObservableList<Integer> allUserIds = FXCollections.observableArrayList();
 
@@ -191,14 +233,24 @@ public abstract class SqlCon {
         return allUserIds;
     }
 
-    public static boolean verifyOverlap(String start, String end, int custId) {
+    /**
+     * Verifies appointment doesn't overlap another appointment with the same Customer.
+
+     * @param start the starting date / time of the appointment.
+     * @param end the ending date / time of the appointment.
+     * @param custId the custId of the appointment.
+     * @param apptId the apptId of the Appt being checked for overlap
+     * @return true if no overlap, otherwise return false.
+     */
+    public static boolean verifyOverlap(String start, String end, int custId, int apptId) {
         try {
             String query = String.format("SELECT * from appointments WHERE Customer_ID = %d", custId);
             PreparedStatement myPs = SqlCon.getConnection().prepareStatement(query);
             ResultSet myResult = myPs.executeQuery();
             while(myResult.next()) {
+                int checkedId = myResult.getInt("Appointment_ID");
                 int id = myResult.getInt("Customer_ID");
-                if (custId == id) {
+                if (custId == id && checkedId != apptId) {
                     String checkStart = myResult.getString("Start");
                     String checkEnd = myResult.getString("End");
                     SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -230,6 +282,10 @@ public abstract class SqlCon {
     return true;
     }
 
+    /**
+     * Gets the current list of countries from the database
+     * @return the Observable List of the countries.
+     */
     public static ObservableList<Country> getCountryList() {
         ObservableList<Country> allCountries = FXCollections.observableArrayList();
 
@@ -247,6 +303,11 @@ public abstract class SqlCon {
         }
         return allCountries;
     }
+
+    /**
+     * Gets the current list of first_level_divisions from the database
+     * @return the Observable List of the divisions.
+     */
     public static ObservableList<Division> getDivisionList() {
         ObservableList<Division> allDivisions = FXCollections.observableArrayList();
 
@@ -266,6 +327,11 @@ public abstract class SqlCon {
         return allDivisions;
     }
 
+    /**
+     * Gets the country name from country id parameter
+     * @param name the name of the country
+     * @return the country id.
+     */
     public static int getCountryIdFromName(String name) {
         int id = 0;
         try {
@@ -280,6 +346,11 @@ public abstract class SqlCon {
         return id;
     }
 
+    /**
+     * Gets the first_level_division id from name parameter
+     * @param name the name of the Division
+     * @return the Division name.
+     */
     public static int getDivIdFromName(String name) {
         int id = 0;
         try {
@@ -294,7 +365,12 @@ public abstract class SqlCon {
         return id;
     }
 
-
+    /**
+     * Gets the number of appointments in specified month for a specified user
+     * @param id the id of the user
+     * @param i the month (1-12) being queried
+     * @return number of appointments
+     */
     public static int getNumAppts(Integer id, int i) {
         int count = 0;
         try {
@@ -309,6 +385,12 @@ public abstract class SqlCon {
         return count;
     }
 
+    /**
+     * Gets the number of appointments of a specified type in a specified month from the database
+     * @param type the type of appointment
+     * @param i the month (1-12) being queried
+     * @return the number of appointments
+     */
     public static int getApptsByType(String type, int i) {
         int count = 0;
         try {
@@ -323,6 +405,10 @@ public abstract class SqlCon {
         return count;
     }
 
+    /**
+     * Gets the current list of unique appointment types from the database
+     * @return the observable list of types
+     */
     public static ArrayList<String> getAllTypes() {
         ArrayList<String> types = new ArrayList<>();
         ObservableList<Appt> allAppts = getApptList("all");
@@ -335,6 +421,10 @@ public abstract class SqlCon {
         return types;
     }
 
+    /**
+     * Gets the current list of Appts for specified contact
+     * @return the observable list of Appts
+     */
     public static ObservableList<Appt> getApptsByContact(int contactId) {
         ObservableList<Appt> appts = FXCollections.observableArrayList();
         try {
@@ -358,6 +448,10 @@ public abstract class SqlCon {
         return appts;
     }
 
+    /**
+     * Validats user login credentials against existing users in the database
+     * @return true if credentials match, otherwise returns negative
+     */
     public static boolean validateLogin(String userName, String password) {
         try {
             String query = "SELECT * from users";

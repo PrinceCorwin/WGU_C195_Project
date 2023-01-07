@@ -22,9 +22,13 @@ public class User {
     }
 
     /**
-     * @return the id of the user
+     * @param i the id to set for the user
      */
     public static void setId(int i) {id = i;}
+
+    /**
+     * @return the id of the user
+     */
     public int getId() {
         return id;
     }

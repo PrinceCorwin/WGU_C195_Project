@@ -17,8 +17,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Controls the behavior of the mainForm.fxml scene. Displays the custTable and apptTable in a tab pane with buttons
+ * for add, update, delete, reports, and exit
+ * lambda expression used here for the sake of abstraction and cleaner code to SetStageInterface basicStage variable is
+ * defined here for use in other methods to change scenes.
+ * @author Steve Corwin Amalfitano
+ */
 public class MainFormController {
 
+    /**
+     * Initializes the apptTable and custTable to accept data and populates them with data from database
+     */
     public void initialize() {
         apptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -81,19 +91,35 @@ public class MainFormController {
     private ObservableList<Customer> customers = SqlCon.getCustomerList();
     private ObservableList<Appt> appts = SqlCon.getApptList("all");
 
-    SetStageInterface basicStage = (actionEvent, path, width, height) -> {
+    /**
+     * lambda expression to change current scene to a new scene. Used to clean up repeated code.
+     * @param actionEvent the action event
+     * @param path the path of the fxml file of the scene
+     * @param width the width of the scene
+     * @param height the height of the scene
+     */
+    SetStageInterface basicStage = (ActionEvent actionEvent, String path, float width, float height) -> {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, width, height);
         stage.setScene(scene);
         stage.show();
     };
+
+    /**
+     * Changes scene to the addUpdateCustomer form to allow creation of a new Customer
+     * basicStage.setStage() as defined in lambda expression above used here to change scenes
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onAddCust(ActionEvent actionEvent) throws IOException {
         basicStage.setStage(actionEvent, "/fxml/AddUpdateCustomer.fxml", 600, 450);
     }
+
     /**
-     * Upon button click, scene is replaced by the addUpdateCustomer.fxml scene and the selected Customer is stored in the
-     * addUpdateCustomer to be modified
+     * Determines if a Customer is selected and, if so, changes scene to addUpdateCustomer.fxml. If no Customer selected,
+     * an error message appears instructing user to select a Customer
+     * basicStage.setStage() as defined in lambda expression above used here to change scenes
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */
@@ -108,7 +134,11 @@ public class MainFormController {
 
     }
 
-    public void onDeleteCust(ActionEvent actionEvent) {
+    /**
+     * Deletes the selected customer from the database. Shows alert to allow user to verify intention to delete. If no
+     * Customer is selected, an error message appears telling user to select a customer
+     */
+    public void onDeleteCust() {
         boolean error = false;
         boolean nullPointer = isCustSelected();
         if (!nullPointer) {
@@ -139,10 +169,23 @@ public class MainFormController {
         }
     }
 
+    /**
+     * Changes scene to the addUpdateAppt form to allow creation of a new Appt
+     * basicStage.setStage() as defined in lambda expression above used here to change scenes
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onAddAppt(ActionEvent actionEvent) throws IOException {
         basicStage.setStage(actionEvent, "/fxml/AddUpdateAppts.fxml", 600, 500);
     }
 
+    /**
+     * Changes scene to the addUpdateAppt form to allow updating of an existing Appt. If no Appt is selected, error
+     * message appears instructing user to select an Appt
+     * basicStage.setStage() as defined in lambda expression above used here to change scenes
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onUpdateAppt(ActionEvent actionEvent) throws IOException {
         boolean nullPointer = isApptSelected();
 
@@ -153,6 +196,10 @@ public class MainFormController {
         }
     }
 
+    /**
+     * Deletes the selected Appt from the database. Shows alert to allow user to verify intention to delete. If no
+     * Appt is selected, an error message appears telling user to select an Appt
+     */
     public void onDeleteAppt() {
        boolean nullPointer = isApptSelected();
         if (!nullPointer) {
@@ -175,20 +222,33 @@ public class MainFormController {
         }
     }
 
-    public void onAllApptView(ActionEvent actionEvent) {
+    /**
+     * Filters the apptTable appointments to show all appointments
+     */
+    public void onAllApptView() {
         apptTable.setItems(appts);
     }
 
-    public void onWeekApptView(ActionEvent actionEvent) {
+    /**
+     * Filters the apptTable appointments to show only appointments within the current week.
+     */
+    public void onWeekApptView() {
         ObservableList<Appt> weekly = SqlCon.getApptList("week");
         apptTable.setItems(weekly);
 
     }
 
-    public void onMonthApptView(ActionEvent actionEvent) {
+    /**
+     * Filters the apptTable appointments to show only appointments within the current month.
+     */
+    public void onMonthApptView() {
         ObservableList<Appt> monthly = SqlCon.getApptList("month");
         apptTable.setItems(monthly);
     }
+
+    /** Determines if an Appt is selected when either the update or delete buttons are clicked
+     * @return true if an Appt is selected, otherwise return false
+     */
     public boolean isApptSelected() {
         selectApptError.setVisible(false);
         boolean nullPointer = true;
@@ -203,6 +263,10 @@ public class MainFormController {
         }
         return nullPointer;
     }
+
+    /** Determines if a Customer is selected when either the update or delete buttons are clicked
+     * @return true if a Customer is selected, otherwise return false
+     */
     public boolean isCustSelected() {
         selectCustError.setVisible(false);
         boolean nullPointer = true;
@@ -218,10 +282,18 @@ public class MainFormController {
         return nullPointer;
     }
 
+    /**
+     * lambda expression is used to change scene to Reports.fxml.
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onReports(ActionEvent actionEvent) throws IOException {
         basicStage.setStage(actionEvent, "/fxml/Reports.fxml", 1200, 600);
-
     }
+
+    /**
+     * exits program.
+     */
     public void onExit() {
         Platform.exit();
     }

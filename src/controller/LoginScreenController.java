@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Controls the behavior of the loginScreen.fxml scene. Compares user input of username and
+ * Controls the behavior of the LoginScreen.fxml scene. Compares user input of username and
  * password with existing users in database to allow access to the application.
  * Successful login sets scene to mainForm.fxml. Incorrect credentials sets error
  * message. All attempts are logged in login_activity.txt file.
@@ -67,6 +67,8 @@ public class LoginScreenController {
 
     /**
      * Compares user input of username and password with existing user info in database.
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
      * Logs attempt to login_activity.txt file.
      */
     public void onLoginSubmit(ActionEvent actionEvent) throws IOException {
@@ -125,7 +127,7 @@ public class LoginScreenController {
     }
 
     /**
-     * Exits proram
+     * Exits program
      */
     public void onCancel()  {
         Platform.exit();

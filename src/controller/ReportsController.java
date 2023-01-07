@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Controls the behavior of the Reports.fxml scene. Displays three reports in a tab pane.
+ * @author Steve Corwin Amalfitano
+ */
 public class ReportsController {
     public TableView<Report> typeTable;
     public TableView<Appt> contactTable;
@@ -56,6 +60,18 @@ public class ReportsController {
     public TableColumn<Appt, Integer> apptCustId;
     public ComboBox<Integer> chooseContactBtn;
     public Label contactNameLabel;
+
+    private ObservableList<Appt> appts = SqlCon.getApptList("all");
+    private ObservableList<Report> typeReport = FXCollections.observableArrayList();
+    private ObservableList<Report> userReport = FXCollections.observableArrayList();
+    private ObservableList<Integer> userIds = SqlCon.getUserIds();
+    private ArrayList<String> allTypes = SqlCon.getAllTypes();
+
+    /**
+     * Initializes the tables in the three reports to accept data and populates two of the reports by calling getReports().
+     * The third report is populated after user selects and Contact via the combobox provided
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void initialize() throws IOException {
         ObservableList<Contact> allContacts = SqlCon.getContactList();
         ObservableList<Integer> contactIds = FXCollections.observableArrayList();
@@ -103,6 +119,10 @@ public class ReportsController {
 
     }
 
+    /**
+     * Fetches the data for two of the reports and returns the data to the initializer to populate tables
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     private void getReports() throws IOException {
         for (Integer id : userIds) {
             int jan = 0, feb = 0, mar = 0, apr = 0, may = 0, jun = 0, jul = 0, aug = 0, sep = 0, oct = 0, nov = 0, dec = 0;
@@ -128,13 +148,11 @@ public class ReportsController {
         typeTable.setItems(typeReport);
     }
 
-    private ObservableList<Appt> appts = SqlCon.getApptList("all");
-    private ObservableList<Report> typeReport = FXCollections.observableArrayList();
-    private ObservableList<Report> userReport = FXCollections.observableArrayList();
-    private ObservableList<Integer> userIds = SqlCon.getUserIds();
-    private ArrayList<String> allTypes = SqlCon.getAllTypes();
-
-
+    /**
+     * Changes scene to MainForm.fxml when the HOME button is clicked
+     * @param actionEvent the action event
+     * @throws IOException Catches any exceptions thrown during data input / output
+     */
     public void onHome(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -143,6 +161,10 @@ public class ReportsController {
         stage.show();
     }
 
+    /**
+     * Fetches data from database to populate the schedule report based on user selection in the combobox
+     * @param actionEvent the action event
+     */
     public void setSchedule(ActionEvent actionEvent) {
         int contactId = chooseContactBtn.getValue();
         ObservableList<Appt> appts = SqlCon.getApptsByContact(contactId);

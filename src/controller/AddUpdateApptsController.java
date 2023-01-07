@@ -26,8 +26,9 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 /**
- * Controls the behavior of the addUpdateAppts.fxml scene. Provides functionality to
+ * Controls the behavior of the AddUpdateAppts.fxml scene. Provides functionality to
  * add new Appt or modify existing Appt, based on user input to the displayed form.
+ * lambda expression used her to define the setStage method of the functional interface SetStageInterface for use in other methods
  * @author Steve Corwin Amalfitano
  */
 public class AddUpdateApptsController {
@@ -51,9 +52,25 @@ public class AddUpdateApptsController {
     private static Appt modifiedAppt = null;
 
     /**
+     * lambda expression to change current scene to a new scene. Used to clean up repeated code.
+     * @param actionEvent the action event
+     * @param path the path of the fxml file of the scene
+     * @param width the width of the scene
+     * @param height the height of the scene
+     */
+    SetStageInterface basicStage = (ActionEvent actionEvent, String path, float width, float height) -> {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.show();
+    };
+
+    /**
      * Initializes the form with existing data if Appt has
+     * Two lambda expressions (forEach) used to simplify code due to only having one parameter and one statement in the
+     * body to execute.
      * been selected and modify button clicked on mainForm.
-     * Also initializes the apptTable to be ready to accept data.
      */
     public void initialize() {
 
@@ -61,6 +78,7 @@ public class AddUpdateApptsController {
         ObservableList<String> contactNames = FXCollections.observableArrayList();
         ObservableList<Integer> custIds = FXCollections.observableArrayList();
         ObservableList<Integer> allUserIds = SqlCon.getUserIds();
+
 
         allContacts.forEach( (c) -> {contactNames.add(c.getName());});
         allCustomers.forEach( (c) -> {custIds.add(c.getId());});
@@ -108,41 +126,24 @@ public class AddUpdateApptsController {
     }
 
     /**
-     * Changes the current scene back to the mainForm.fxml by calling backToMain() when cancel button is clicked.
+     * Changes the current scene back to the MainForm.fxml.
+     * lambda expression used here to change current scene to MainForm.fxml
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */
     public void onApptCancel(ActionEvent actionEvent) throws IOException {
         hideErrors();
         modifiedAppt = null;
-        backToMain(actionEvent);
+        basicStage.setStage(actionEvent, "/fxml/mainForm.fxml", 1200, 600);
+
     }
 
     /**
-     * replaces current scene with the mainForm.fxml scene
-     * @param actionEvent the action event
-     * @throws IOException Catches any exceptions thrown during data input / output
-     */
-    private void backToMain(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/MainForm.fxml")));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    SetStageInterface basicStage = (actionEvent, path, width, height) -> {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, width, height);
-        stage.setScene(scene);
-        stage.show();
-    };
-
-    /**
+     * Saves new or updated Appt to the database.
      * Checks date and time user input for valid format, as well as checking to verify all
      * combobox selections have been made. New Appt is either saved to database or an error
-     * message is displayed for user to correct. backToMain() is called upon successful save.
+     * message is displayed for user to correct.
+     * lambda expression used here to change current scene to MainForm.fxml upon successful save.
      * @param actionEvent the action event
      * @throws IOException Catches any exceptions thrown during data input / output
      */
@@ -179,7 +180,7 @@ public class AddUpdateApptsController {
                         contactId = c.getId();
                     }
                 }
-                if (!verifyTimeAvailable(start, end, startTime, endTime, custId)) {
+                if (!verifyTimeAvailable(start, end, startTime, endTime, custId, id)) {
                     errors = true;
                 }
             } else {
@@ -210,14 +211,15 @@ public class AddUpdateApptsController {
                 myPs.executeUpdate();
                 modifiedAppt = null;
                 hideErrors();
-                backToMain(actionEvent);
+                basicStage.setStage(actionEvent, "/fxml/mainForm.fxml", 1200, 600);
+
             } catch (SQLException e) {
             }
         }
     }
 
     /**
-     * Hides errorLabel by setting text to empty string
+     * Hides errorLabel by setting text to empty string.
      */
     private void hideErrors() {
         errorLabel.setText("");
@@ -229,13 +231,14 @@ public class AddUpdateApptsController {
      * are called to determine true or false.
      * @param start the starting dateTime (yyyy-MM-dd HH:mm:ss) of the Appt to set.
      * @param end the ending dateTime string (yyyy-MM-dd HH:mm:ss) of the Appt to set.
-     * @param startTime the starting time string (HH:mm:ss) of the Appt to set
-     * @param endTime the ending time (HH:mm:ss) of the Appt to set
-     * @param custId the id of the customer associated with the new / update Appt
+     * @param startTime the starting time string (HH:mm:ss) of the Appt to set.
+     * @param endTime the ending time (HH:mm:ss) of the Appt to set.
+     * @param custId the id of the customer associated with the new / update Appt.
+     * @param apptId the apptId of the Appt being checked.
      * @return true if no overlap and within business hours, otherwise returns false.
      */
-    private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId) {
-        if (!SqlCon.verifyOverlap(start, end, custId)) {
+    private boolean verifyTimeAvailable(String start, String end, String startTime, String endTime, int custId, int apptId) {
+        if (!SqlCon.verifyOverlap(start, end, custId, apptId)) {
             errorLabel.setText("Error: Appointment time overlaps another appointment \n       with the same customer");
             return false;
         }

@@ -5,6 +5,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 public interface DateFormatInterface {
-    SimpleDateFormat dateFormat();
+    SimpleDateFormat dateFormat(String pattern);
 }
 
