@@ -77,6 +77,7 @@ public class LoginScreenController {
         String password = passwordField.getText();
         boolean validLogin = SqlCon.validateLogin(userName, password);
         String currentDate = Helper.getCurrentUtcTime();
+        currentDate = Helper.utcToLocal(currentDate);
         String success = (validLogin) ? "Successful" : "failed";
         String log = String.format("\n%s login attempt by '%s', on %s", success, userName, currentDate);
 
