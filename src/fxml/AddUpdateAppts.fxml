@@ -13,7 +13,7 @@
          </font>
       </Label>
    </AnchorPane>
-   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" prefWidth="60.0" styleClass="deleteBtn" text="ff" />
+   <Button layoutX="498.0" layoutY="429.0" mnemonicParsing="false" onAction="#onApptCancel" prefWidth="60.0" styleClass="deleteBtn" text="CANCEL" />
    <TextField fx:id="apptIdField" disable="true" layoutX="115.0" layoutY="251.0" prefHeight="26.0" prefWidth="89.0" promptText="AUTO GEN" />
    <TextField fx:id="apptTitleField" layoutX="115.0" layoutY="289.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Daily Crew Meeting" />
    <TextField fx:id="apptLocField" layoutX="115.0" layoutY="329.0" prefHeight="26.0" prefWidth="174.0" promptText="ex Conference Room" />
