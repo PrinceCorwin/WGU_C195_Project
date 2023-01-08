@@ -30,7 +30,7 @@ public class Main extends Application {
     }
 
     /** The start method sets the stage and starts the first scene (LoginScreen.fxml).
-     * javadoc files located at src/javadoc
+     * javadoc files located at src/javadoc (index.html)
      * @param openingStage This is the stage passed to the start method.
      * @throws IOException Catches any exceptions thrown during data input / output.
      */
