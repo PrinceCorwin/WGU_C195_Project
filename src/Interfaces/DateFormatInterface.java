@@ -12,6 +12,8 @@ public interface DateFormatInterface {
 
     /**
      * Method for setting the SimpleDateFormat pattern
+     * @param pattern the pattern for the SimpleDateFormat
+     * @return the SimpleDateFormat pattern
      */
     SimpleDateFormat dateFormat(String pattern);
 }
