@@ -2,7 +2,6 @@ package databaseHelp;
 
 import Interfaces.DateFormatInterface;
 import javafx.scene.control.ComboBox;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

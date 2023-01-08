@@ -3,7 +3,6 @@ package databaseHelp;
 import classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
