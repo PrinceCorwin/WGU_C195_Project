@@ -5,11 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<<<<<<< Updated upstream
-<AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="datePane" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
-=======
 <AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="datePane" stylesheets="@../assets/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUpdateApptsController">
->>>>>>> Stashed changes
    <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: black;">
       <Label fx:id="apptFormTitle" layoutX="40.0" layoutY="23.0" text="NEW APPOINTMENT" textFill="#efefef">
          <font>
